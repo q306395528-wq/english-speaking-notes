@@ -1,4 +1,4 @@
-const SHELL_CACHE_KEY = "english-v2-shell-20260728-mobile";
+const SHELL_CACHE_KEY = "english-v2-shell-20260728-output";
 
 const pages = {
   home: {
