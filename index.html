@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5b67f1">
+  <meta name="description" content="个人英语口语学习、错句纠正和间隔复习网站">
+  <title>我的英语口语库 V2</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#dashboard" aria-label="返回首页">
+      <span class="brand-mark">EN</span>
+      <span>
+        <strong>我的英语口语库</strong>
+        <small>Speak a little better every day</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="主导航">
+      <a href="#dashboard">首页</a>
+      <a href="#practice">练习</a>
+      <a href="#library">句子库</a>
+      <a href="#mistakes">错句</a>
+      <a href="#data">数据</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="button button-soft desktop-add" href="./add.html">＋ 添加内容</a>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="切换深色模式">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section dashboard" id="dashboard">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <span class="eyebrow">TODAY'S SPEAKING PLAN</span>
+          <h1>把今天说过的话，变成明天能脱口而出的英语。</h1>
+          <p>这里会保留你的正确表达、常见错句和复习进度。每天只练该练的内容，不再反复浏览一大堆句子。</p>
+          <div class="hero-actions">
+            <button class="button button-primary" id="startDueReview" type="button">开始今日复习</button>
+            <button class="button button-ghost" id="quickRandom" type="button">随机练一句</button>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="speech-orbit orbit-one">I'm heading home.</div>
+          <div class="speech-orbit orbit-two">Traffic is light.</div>
+          <div class="speech-core">🗣️</div>
+        </div>
+      </div>
+
+      <div class="stats-grid" aria-label="学习统计">
+        <article class="stat-card">
+          <span class="stat-icon due">↻</span>
+          <div><strong id="dueCount">0</strong><span>今日待复习</span></div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon new">＋</span>
+          <div><strong id="newCount">0</strong><span>尚未学习</span></div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon streak">🔥</span>
+          <div><strong id="streakCount">0</strong><span>连续学习天数</span></div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon mastery">✓</span>
+          <div><strong id="masteredCount">0</strong><span>已掌握句子</span></div>
+        </article>
+      </div>
+
+      <div class="today-grid">
+        <article class="panel today-plan">
+          <div class="panel-heading">
+            <div>
+              <span class="section-kicker">TODAY</span>
+              <h2>今日任务</h2>
+            </div>
+            <span class="date-pill" id="todayLabel"></span>
+          </div>
+          <div class="task-list">
+            <button class="task-row" type="button" data-task-mode="translation">
+              <span class="task-number">01</span>
+              <span><strong>看中文说英文</strong><small>检验你是否真的能主动说出来</small></span>
+              <b id="translationTaskCount">0 句</b>
+            </button>
+            <button class="task-row" type="button" data-task-mode="dictation">
+              <span class="task-number">02</span>
+              <span><strong>听写训练</strong><small>听发音后输入完整英文</small></span>
+              <b id="dictationTaskCount">0 句</b>
+            </button>
+            <button class="task-row" type="button" data-task-mode="shadowing">
+              <span class="task-number">03</span>
+              <span><strong>跟读训练</strong><small>同一句自动播放三遍</small></span>
+              <b id="shadowTaskCount">0 句</b>
+            </button>
+          </div>
+        </article>
+
+        <article class="panel progress-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="section-kicker">PROGRESS</span>
+              <h2>本周学习</h2>
+            </div>
+            <strong id="weekReviewCount">0 次</strong>
+          </div>
+          <div class="week-chart" id="weekChart" aria-label="最近七天复习次数"></div>
+          <div class="progress-summary">
+            <div><span>本周复习</span><strong id="weekTotal">0</strong></div>
+            <div><span>收藏重点</span><strong id="favoriteCount">0</strong></div>
+            <div><span>掌握率</span><strong id="masteryRate">0%</strong></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="section-heading-row">
+        <div>
+          <span class="section-kicker">PRACTICE MODES</span>
+          <h2>选择一种练习方式</h2>
+          <p>不同模式训练不同能力。口语进步最快的组合是：主动翻译、听写、跟读。</p>
+        </div>
+      </div>
+
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="translation" type="button">
+          <span class="mode-icon">中 → EN</span>
+          <h3>看中文说英文</h3>
+          <p>先看中文，自己说英文，再揭晓答案并评分。</p>
+          <span>开始练习 →</span>
+        </button>
+        <button class="mode-card" data-mode="dictation" type="button">
+          <span class="mode-icon">🎧</span>
+          <h3>听写模式</h3>
+          <p>播放英语发音，输入你听到的完整句子。</p>
+          <span>开始练习 →</span>
+        </button>
+        <button class="mode-card" data-mode="shadowing" type="button">
+          <span class="mode-icon">🗣️ ×3</span>
+          <h3>跟读模式</h3>
+          <p>以较慢速度连续播放三遍，适合训练嘴巴灵活度。</p>
+          <span>开始练习 →</span>
+        </button>
+        <button class="mode-card" data-mode="random" type="button">
+          <span class="mode-icon">🎲</span>
+          <h3>随机测试</h3>
+          <p>随机从中文、英文或错句中抽题，保持反应速度。</p>
+          <span>开始练习 →</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section" id="library">
+      <div class="section-heading-row library-heading">
+        <div>
+          <span class="section-kicker">SENTENCE LIBRARY</span>
+          <h2>句子库</h2>
+          <p>按日期、场景、难度或关键词找到你学过的表达。</p>
+        </div>
+        <a class="button button-soft" href="./add.html">＋ 添加今天的内容</a>
+      </div>
+
+      <div class="library-toolbar">
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="搜索英文、中文、错句、标签……">
+        </label>
+        <select id="dateFilter" aria-label="按日期筛选">
+          <option value="all">全部日期</option>
+        </select>
+        <select id="levelFilter" aria-label="按难度筛选">
+          <option value="all">全部难度</option>
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+          <option value="B1">B1</option>
+        </select>
+        <select id="statusFilter" aria-label="按学习状态筛选">
+          <option value="all">全部状态</option>
+          <option value="due">待复习</option>
+          <option value="new">未学习</option>
+          <option value="favorite">已收藏</option>
+          <option value="mastered">已掌握</option>
+        </select>
+      </div>
+
+      <div class="category-row" id="categoryFilters"></div>
+      <div class="library-meta">
+        <span id="libraryResultText">正在加载……</span>
+        <button class="text-button" id="clearFilters" type="button">清除筛选</button>
+      </div>
+      <div class="lesson-grid" id="lessonGrid" aria-live="polite"></div>
+      <div class="empty-state hidden" id="libraryEmpty">
+        <strong>没有找到对应内容</strong>
+        <p>换一个关键词或清除筛选再试。</p>
+      </div>
+    </section>
+
+    <section class="section" id="mistakes">
+      <div class="section-heading-row">
+        <div>
+          <span class="section-kicker">MY COMMON MISTAKES</span>
+          <h2>我的常见错句</h2>
+          <p>真正值得重复练习的，是你经常会说错的地方。</p>
+        </div>
+      </div>
+      <div class="mistake-grid" id="mistakeGrid"></div>
+      <div class="empty-state hidden" id="mistakeEmpty">
+        <strong>目前还没有错句记录</strong>
+        <p>以后每天整理聊天内容时，会把典型错误保存在这里。</p>
+      </div>
+    </section>
+
+    <section class="section" id="data">
+      <div class="section-heading-row">
+        <div>
+          <span class="section-kicker">BACKUP & GITHUB</span>
+          <h2>数据与发布</h2>
+          <p>学习进度保存在浏览器本地。定期导出，换设备也不会丢失。</p>
+        </div>
+      </div>
+
+      <div class="data-grid">
+        <article class="panel data-card">
+          <span class="data-icon">⇩</span>
+          <h3>导出学习进度</h3>
+          <p>下载收藏、掌握程度、下次复习日期和学习记录。</p>
+          <button class="button button-primary" id="exportProgress" type="button">导出 JSON</button>
+        </article>
+        <article class="panel data-card">
+          <span class="data-icon">⇧</span>
+          <h3>导入学习进度</h3>
+          <p>把之前导出的进度文件恢复到当前浏览器。</p>
+          <label class="button button-soft file-button">
+            选择 JSON
+            <input id="importProgress" type="file" accept="application/json,.json">
+          </label>
+        </article>
+        <article class="panel data-card">
+          <span class="data-icon">GH</span>
+          <h3>发布到 GitHub</h3>
+          <p>每天新增一个日期 JSON，并更新 data/index.json 后提交即可。</p>
+          <a class="button button-soft" href="./README.md">查看发布说明</a>
+        </article>
+        <article class="panel data-card danger-card">
+          <span class="data-icon">↺</span>
+          <h3>重置本机进度</h3>
+          <p>只清除当前浏览器中的学习记录，不删除句子内容。</p>
+          <button class="button button-danger" id="resetProgress" type="button">重置进度</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="practice-dialog" id="practiceDialog">
+    <div class="practice-header">
+      <div>
+        <span class="section-kicker" id="practiceModeLabel">PRACTICE</span>
+        <h2 id="practiceTitle">练习</h2>
+      </div>
+      <button class="icon-button" id="closePractice" type="button" aria-label="关闭练习">×</button>
+    </div>
+
+    <div class="practice-progress">
+      <div><span id="practicePosition">1 / 1</span><span id="practiceCategory"></span></div>
+      <div class="progress-track"><span id="practiceProgressBar"></span></div>
+    </div>
+
+    <div class="practice-body" id="practiceBody"></div>
+
+    <div class="rating-area hidden" id="ratingArea">
+      <p>这句话你掌握得怎么样？</p>
+      <div class="rating-buttons">
+        <button data-rating="again" type="button"><strong>再来</strong><small>明天复习</small></button>
+        <button data-rating="hard" type="button"><strong>有点难</strong><small>3 天后</small></button>
+        <button data-rating="good" type="button"><strong>记住了</strong><small>7 天后</small></button>
+        <button data-rating="easy" type="button"><strong>很熟练</strong><small>30 天后</small></button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="confirm-dialog" id="confirmDialog">
+    <h3 id="confirmTitle">确认操作</h3>
+    <p id="confirmMessage"></p>
+    <div class="dialog-actions">
+      <button class="button button-soft" id="confirmCancel" type="button">取消</button>
+      <button class="button button-danger" id="confirmOk" type="button">确认</button>
+    </div>
+  </dialog>
+
+  <a class="mobile-add" href="./add.html" aria-label="添加今天的新句子">＋</a>
+
+  <footer>
+    <strong>先说对，再说顺，最后说自然。</strong>
+    <span>你的内容按日期保存在 data 文件夹中。</span>
+  </footer>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
