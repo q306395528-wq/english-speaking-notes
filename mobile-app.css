@@ -1,0 +1,756 @@
+:root {
+  --tabbar-height: 74px;
+}
+
+.mobile-tabbar,
+.standalone-heading {
+  display: none;
+}
+
+.shell-loading,
+.shell-error {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+.shell-error {
+  align-content: center;
+  gap: 12px;
+}
+
+.shell-error a {
+  color: var(--primary);
+}
+
+.desktop-nav a[aria-current="page"] {
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(25, 35, 65, .06);
+}
+
+.standalone-page main {
+  min-height: calc(100dvh - 130px);
+}
+
+.standalone-page .standalone-heading {
+  width: min(1120px, calc(100% - 36px));
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 42px 0 0;
+}
+
+.standalone-heading h1 {
+  margin: 5px 0 0;
+  font-size: clamp(32px, 4vw, 45px);
+  letter-spacing: -.045em;
+}
+
+.standalone-heading p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.standalone-page main > .section {
+  padding-top: 30px;
+}
+
+.standalone-page main > .section[hidden] {
+  display: none;
+}
+
+.standalone-page .section > .section-heading-row {
+  display: none;
+}
+
+.view-library #mistakes {
+  padding-top: 56px;
+}
+
+.view-library #mistakes > .section-heading-row {
+  display: flex;
+}
+
+.view-stats .hero-card,
+.view-stats .today-plan {
+  display: none;
+}
+
+.view-stats .dashboard {
+  padding-top: 28px;
+}
+
+.view-stats .stats-grid {
+  margin-top: 0;
+}
+
+.view-stats .today-grid {
+  grid-template-columns: 1fr;
+  margin-top: 18px;
+}
+
+.view-stats .progress-panel {
+  min-height: 390px;
+}
+
+.view-stats .week-chart {
+  min-height: 230px;
+}
+
+.view-settings .data-grid .data-card:nth-child(3) {
+  display: none;
+}
+
+.view-settings .data-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.view-settings .voice-settings-panel {
+  margin-top: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    position: sticky;
+    min-height: 58px;
+    padding: 8px 14px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    font-size: 12px;
+  }
+
+  .brand strong {
+    font-size: 13px;
+  }
+
+  .header-actions .icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mobile-add {
+    right: 16px;
+    bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom) + 14px);
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    font-size: 22px;
+  }
+
+  .standalone-page:not(.view-library) .mobile-add {
+    display: none;
+  }
+
+  .view-library .mobile-add {
+    display: none;
+  }
+
+  .view-library .desktop-add {
+    width: 36px;
+    min-height: 36px;
+    display: grid;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .view-library .desktop-add::before {
+    content: "+";
+    font-size: 21px;
+  }
+
+  .mobile-tabbar {
+    position: fixed;
+    z-index: 50;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 7px 8px env(safe-area-inset-bottom);
+    border-top: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    box-shadow: 0 -10px 28px rgba(13, 20, 40, .06);
+    backdrop-filter: blur(20px) saturate(1.15);
+  }
+
+  .tab-item {
+    min-width: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 2px;
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .tab-item[aria-current="page"] {
+    color: var(--primary);
+  }
+
+  .tab-icon {
+    height: 28px;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .tab-library .tab-icon {
+    font-size: 22px;
+  }
+
+  .tab-stats .tab-icon {
+    font-size: 30px;
+    transform: rotate(-8deg);
+  }
+
+  .tab-settings .tab-icon {
+    font-size: 32px;
+    font-weight: 300;
+  }
+
+  footer {
+    display: none;
+  }
+
+  .standalone-page .standalone-heading {
+    width: min(100% - 28px, 1120px);
+    display: block;
+    padding-top: 28px;
+  }
+
+  .standalone-heading h1 {
+    font-size: 30px;
+  }
+
+  .standalone-heading p {
+    font-size: 13px;
+  }
+
+  .standalone-page main > .section {
+    width: min(100% - 28px, 1120px);
+    padding-top: 22px;
+  }
+
+  .standalone-page .section > .section-heading-row {
+    display: none;
+  }
+
+  /* The practice launcher is a compact, app-like menu. */
+  .view-practice .mode-grid {
+    gap: 10px;
+  }
+
+  .view-practice .mode-card {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 2px 14px;
+    padding: 17px;
+    text-align: left;
+    border-radius: 16px;
+  }
+
+  .view-practice .mode-icon {
+    grid-row: 1 / 3;
+    width: 72px;
+    min-height: 52px;
+    display: grid;
+    place-items: center;
+    margin: 0;
+  }
+
+  .view-practice .mode-card h3 {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  .view-practice .mode-card p {
+    margin: 2px 0 0;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .view-practice .mode-card > span:last-child {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    font-size: 0;
+  }
+
+  .view-practice .mode-card > span:last-child::after {
+    content: "›";
+    font-size: 27px;
+  }
+
+  /* Library cards become a concise mobile reading list. */
+  .view-library .library-toolbar {
+    display: block;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .view-library .search-box {
+    min-height: 48px;
+  }
+
+  .view-library .library-toolbar select {
+    display: none;
+  }
+
+  .view-library .library-meta {
+    margin-top: 10px;
+  }
+
+  .view-library .category-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+  }
+
+  .view-library .category-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .view-library .category-row button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .view-library .lesson-grid,
+  .view-library .mistake-grid {
+    gap: 10px;
+  }
+
+  .view-library .lesson-card {
+    min-height: 0;
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .view-library .lesson-english {
+    margin: 14px 0 4px;
+    font-size: 20px;
+  }
+
+  .view-library .lesson-chinese {
+    font-size: 13px;
+  }
+
+  .view-library .lesson-note,
+  .view-library .reason-line {
+    display: none;
+  }
+
+  .view-library .correction-box {
+    margin-top: 10px;
+  }
+
+  .view-library .lesson-footer {
+    padding-top: 13px;
+  }
+
+  .view-library #mistakes {
+    padding-top: 44px;
+  }
+
+  .view-library #mistakes > .section-heading-row {
+    display: block;
+  }
+
+  .view-library #mistakes .section-heading-row p,
+  .view-library #mistakes .section-kicker {
+    display: none;
+  }
+
+  .view-library #mistakes .section-heading-row h2 {
+    font-size: 24px;
+  }
+
+  /* Stats prioritize three numbers and one readable chart. */
+  .view-stats .dashboard {
+    padding-top: 22px;
+  }
+
+  .view-stats .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .view-stats .stat-card {
+    min-height: 94px;
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+    padding: 13px;
+  }
+
+  .view-stats .stat-card:last-child {
+    display: none;
+  }
+
+  .view-stats .stat-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .view-stats .stat-card strong {
+    font-size: 22px;
+  }
+
+  .view-stats .stat-card span {
+    font-size: 11px;
+  }
+
+  .view-stats .today-grid {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .view-stats .progress-panel {
+    min-height: 360px;
+    padding: 18px 15px;
+  }
+
+  .view-stats .week-chart {
+    min-height: 230px;
+  }
+
+  /* Settings is a short list, not a collection of marketing cards. */
+  .view-settings .voice-settings-panel {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 15px;
+    padding: 17px;
+  }
+
+  .view-settings .voice-settings-copy {
+    grid-column: 1 / -1;
+  }
+
+  .view-settings .voice-settings-copy p,
+  .view-settings .data-card p {
+    display: none;
+  }
+
+  .view-settings .voice-setting,
+  .view-settings #voicePreview {
+    grid-column: 1 / -1;
+  }
+
+  .view-settings .data-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .view-settings .data-card {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .view-settings .data-card h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .view-settings .data-card .button {
+    margin: 0;
+  }
+
+  .view-settings .data-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* Practice becomes a true full-screen task on phones. */
+  .practice-dialog[open] {
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .practice-dialog::backdrop {
+    background: var(--bg);
+    backdrop-filter: none;
+  }
+
+  .practice-header {
+    position: relative;
+    min-height: 64px;
+    flex: 0 0 auto;
+    padding: max(12px, env(safe-area-inset-top)) 16px 10px;
+    border-bottom: 0;
+  }
+
+  .practice-header > div {
+    flex: 1;
+    text-align: center;
+  }
+
+  .practice-header .section-kicker {
+    display: none;
+  }
+
+  .practice-header h2 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .practice-header #closePractice {
+    position: absolute;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    font-size: 24px;
+  }
+
+  .practice-dialog:focus {
+    outline: 0;
+  }
+
+  .practice-progress {
+    flex: 0 0 auto;
+    padding: 5px 18px 0;
+  }
+
+  .practice-progress > div:first-child {
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  #practiceCategory {
+    display: none;
+  }
+
+  .progress-track {
+    height: 3px;
+    margin-top: 10px;
+  }
+
+  .practice-body {
+    min-height: 0;
+    flex: 1 1 auto;
+    align-content: center;
+    overflow-y: auto;
+    padding: 28px 22px;
+    text-align: center;
+  }
+
+  .practice-body.practice-body-dictation {
+    display: grid;
+    align-content: center;
+    padding: 28px 22px;
+  }
+
+  .practice-dialog:has(.rating-area:not(.hidden)) .practice-body {
+    align-content: start;
+  }
+
+  .prompt-label {
+    font-size: 11px;
+    letter-spacing: .08em;
+  }
+
+  .practice-prompt {
+    margin: 14px auto;
+    font-size: clamp(28px, 8.7vw, 38px);
+    line-height: 1.34;
+  }
+
+  .practice-subtitle,
+  .relearn-note {
+    display: none;
+  }
+
+  .recording-panel {
+    width: min(100%, 520px);
+    gap: 14px;
+    margin: 28px auto 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .recording-status-row {
+    justify-content: center;
+  }
+
+  .recording-status-row small,
+  .recording-note {
+    display: none;
+  }
+
+  .recording-controls {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .recording-controls .recording-primary {
+    grid-column: 1 / -1;
+    min-height: 52px;
+  }
+
+  .recording-controls .button:not(.recording-primary) {
+    min-height: 46px;
+  }
+
+  .recording-result {
+    text-align: left;
+  }
+
+  .practice-actions {
+    justify-content: center;
+    margin-top: 18px;
+  }
+
+  .practice-actions .button {
+    min-height: 46px;
+  }
+
+  .dictation-practice {
+    width: min(100%, 520px);
+    margin: auto;
+  }
+
+  .dictation-audio-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .dictation-headphones,
+  .dictation-audio-copy {
+    display: none;
+  }
+
+  .dictation-audio-card .button {
+    grid-column: auto;
+    width: 112px;
+    height: 112px;
+    padding: 0 16px;
+    border-radius: 50%;
+    font-size: 0;
+  }
+
+  .dictation-audio-card .button::before {
+    content: "▶";
+    margin-left: 5px;
+    font-size: 30px;
+  }
+
+  .dictation-input {
+    min-height: 52px;
+    margin-top: 24px;
+    text-align: left;
+  }
+
+  .dictation-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .practice-answer {
+    text-align: left;
+  }
+
+  .practice-answer .answer-reason {
+    display: none;
+  }
+
+  .rating-area {
+    position: relative;
+    flex: 0 0 auto;
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line);
+  }
+
+  .rating-area > p {
+    margin: 0 0 8px;
+    text-align: center;
+  }
+
+  .rating-buttons.learning-ratings {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .learning-ratings button {
+    min-height: 50px;
+    border-radius: 12px;
+  }
+
+  .learning-ratings button small {
+    display: none;
+  }
+
+  .word-dialog,
+  .record-dialog {
+    width: calc(100% - 20px);
+    max-height: calc(100dvh - 20px);
+    margin: auto;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .view-practice .mode-card {
+    grid-template-columns: 62px 1fr auto;
+    gap: 2px 11px;
+    padding: 14px;
+  }
+
+  .view-practice .mode-icon {
+    width: 62px;
+  }
+
+  .view-stats .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .view-stats .stat-card:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+}

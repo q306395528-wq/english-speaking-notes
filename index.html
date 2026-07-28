@@ -13,10 +13,11 @@
   <link rel="stylesheet" href="./recording.css?v=20260728-recording">
   <link rel="stylesheet" href="./learning.css?v=20260728-learning">
   <link rel="stylesheet" href="./product-polish.css?v=20260728-polish">
+  <link rel="stylesheet" href="./mobile-app.css?v=20260728-pages">
 </head>
-<body>
+<body data-view="home">
   <header class="topbar">
-    <a class="brand" href="#dashboard" aria-label="返回首页">
+    <a class="brand" href="./index.html" aria-label="返回首页">
       <span class="brand-mark">EN</span>
       <span>
         <strong>我的英语口语库</strong>
@@ -25,11 +26,11 @@
     </a>
 
     <nav class="desktop-nav" aria-label="主导航">
-      <a href="#dashboard">首页</a>
-      <a href="#practice">练习</a>
-      <a href="#library">句子库</a>
-      <a href="#mistakes">错句</a>
-      <a href="#data">数据</a>
+      <a href="./index.html" aria-current="page">首页</a>
+      <a href="./practice.html">练习</a>
+      <a href="./library.html">句子库</a>
+      <a href="./stats.html">统计</a>
+      <a href="./settings.html">我的</a>
     </nav>
 
     <div class="header-actions">
@@ -284,13 +285,13 @@
     </section>
   </main>
 
-  <dialog class="practice-dialog" id="practiceDialog">
+  <dialog class="practice-dialog" id="practiceDialog" tabindex="-1">
     <div class="practice-header">
       <div>
         <span class="section-kicker" id="practiceModeLabel">PRACTICE</span>
         <h2 id="practiceTitle">练习</h2>
       </div>
-      <button class="icon-button" id="closePractice" type="button" aria-label="关闭练习">×</button>
+      <button class="icon-button" id="closePractice" type="button" aria-label="退出练习">←</button>
     </div>
 
     <div class="practice-progress">
@@ -301,11 +302,11 @@
     <div class="practice-body" id="practiceBody"></div>
 
     <div class="rating-area hidden" id="ratingArea">
-      <p>现在对这句话的记忆状态是？</p>
+      <p>这句话记得怎么样？</p>
       <div class="rating-buttons learning-ratings">
-        <button data-rating="forget" type="button"><strong>忘记</strong><small>今天重新学习</small></button>
-        <button data-rating="fuzzy" type="button"><strong>模糊</strong><small>今天再次巩固</small></button>
-        <button data-rating="know" type="button"><strong>认识</strong><small>自适应安排复习</small></button>
+        <button data-rating="forget" type="button"><strong>忘记</strong></button>
+        <button data-rating="fuzzy" type="button"><strong>模糊</strong></button>
+        <button data-rating="know" type="button"><strong>认识</strong></button>
       </div>
     </div>
   </dialog>
@@ -359,6 +360,25 @@
     <span>你的内容按日期保存在 data 文件夹中。</span>
   </footer>
 
-  <script type="module" src="./app.js?v=20260728-polish"></script>
+  <nav class="mobile-tabbar" aria-label="移动端主导航">
+    <a class="tab-item tab-practice" href="./practice.html">
+      <span class="tab-icon" aria-hidden="true">↻</span>
+      <span>练习</span>
+    </a>
+    <a class="tab-item tab-library" href="./library.html">
+      <span class="tab-icon" aria-hidden="true">▣</span>
+      <span>句库</span>
+    </a>
+    <a class="tab-item tab-stats" href="./stats.html">
+      <span class="tab-icon" aria-hidden="true">⌁</span>
+      <span>统计</span>
+    </a>
+    <a class="tab-item tab-settings" href="./settings.html">
+      <span class="tab-icon" aria-hidden="true">○</span>
+      <span>我的</span>
+    </a>
+  </nav>
+
+  <script type="module" src="./app.js?v=20260728-pages"></script>
 </body>
 </html>
