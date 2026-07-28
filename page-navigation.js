@@ -1,4 +1,4 @@
-const SHELL_CACHE_KEY = "english-v2-shell-20260728-fast";
+const SHELL_CACHE_KEY = "english-v2-shell-20260728-cloud";
 
 const pages = {
   home: {

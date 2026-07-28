@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="./recording.css?v=20260728-recording">
   <link rel="stylesheet" href="./learning.css?v=20260728-learning">
   <link rel="stylesheet" href="./product-polish.css?v=20260728-polish">
-  <link rel="stylesheet" href="./mobile-app.css?v=20260728-fast">
+  <link rel="stylesheet" href="./mobile-app.css?v=20260728-cloud">
 </head>
 <body data-view="home">
   <header class="topbar">
@@ -229,9 +229,9 @@
     <section class="section" id="data">
       <div class="section-heading-row">
         <div>
-          <span class="section-kicker">BACKUP & GITHUB</span>
-          <h2>数据与发布</h2>
-          <p>学习进度保存在浏览器本地。定期导出，换设备也不会丢失。</p>
+          <span class="section-kicker">CLOUD SYNC</span>
+          <h2>数据与同步</h2>
+          <p>学习进度自动保存到云端，本地缓存用于离线学习。</p>
         </div>
       </div>
 
@@ -239,7 +239,7 @@
         <span class="data-icon" aria-hidden="true">🔊</span>
         <div class="voice-settings-copy">
           <h3 id="voiceSettingsTitle">语音设置</h3>
-          <p>选择自然音色和播放速度，设置只保存在当前浏览器。</p>
+          <p>选择自然音色和播放速度，设置会随学习数据同步。</p>
         </div>
         <label class="voice-setting">
           <span>音色</span>
@@ -253,6 +253,27 @@
           <input id="voiceRate" type="range" min="0.70" max="1.20" step="0.05" value="0.95">
         </label>
         <button class="button button-soft" id="voicePreview" type="button">试听</button>
+      </article>
+
+      <article class="panel cloud-sync-panel" aria-labelledby="cloudSyncTitle">
+        <span class="data-icon cloud-icon" aria-hidden="true">☁</span>
+        <div class="cloud-sync-copy">
+          <div class="cloud-sync-title-row">
+            <h3 id="cloudSyncTitle">云端同步</h3>
+            <span class="cloud-sync-state" id="cloudSyncState">连接云端…</span>
+          </div>
+          <p>进度、收藏、复习计划和语音设置会自动同步。</p>
+          <div class="cloud-code-row">
+            <span>同步码</span>
+            <code id="cloudSyncCode">正在生成…</code>
+            <small id="cloudSyncTime"></small>
+          </div>
+        </div>
+        <div class="cloud-sync-actions">
+          <button class="button button-primary" id="cloudSyncNow" type="button">立即同步</button>
+          <button class="button button-soft" id="copySyncCode" type="button">复制同步码</button>
+          <button class="text-button" id="changeSyncCode" type="button">使用其他同步码</button>
+        </div>
       </article>
 
       <div class="data-grid">
@@ -279,8 +300,8 @@
         </article>
         <article class="panel data-card danger-card">
           <span class="data-icon">↺</span>
-          <h3>重置本机进度</h3>
-          <p>只清除当前浏览器中的学习记录，不删除句子内容。</p>
+          <h3>重置学习数据</h3>
+          <p>清空当前同步码对应的本地与云端学习进度，不删除句子内容。</p>
           <button class="button button-danger" id="resetProgress" type="button">重置进度</button>
         </article>
       </div>
@@ -382,9 +403,9 @@
   </nav>
 
   <script type="module">
-    import { installPageNavigation } from "./page-navigation.js?v=20260728-fast";
+    import { installPageNavigation } from "./page-navigation.js?v=20260728-cloud";
     installPageNavigation("home");
   </script>
-  <script type="module" src="./app.js?v=20260728-fast"></script>
+  <script type="module" src="./app.js?v=20260728-cloud2"></script>
 </body>
 </html>

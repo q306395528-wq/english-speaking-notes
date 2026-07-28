@@ -123,6 +123,94 @@ select {
   margin-top: 0;
 }
 
+.cloud-sync-panel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+  padding: 20px 22px;
+}
+
+.cloud-icon {
+  color: var(--green);
+  background: color-mix(in srgb, var(--green) 10%, var(--surface));
+}
+
+.cloud-sync-copy h3,
+.cloud-sync-copy p {
+  margin: 0;
+}
+
+.cloud-sync-copy p {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cloud-sync-title-row,
+.cloud-code-row,
+.cloud-sync-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cloud-sync-state {
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--soft);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.cloud-sync-state[data-state="synced"] {
+  color: var(--green);
+  background: color-mix(in srgb, var(--green) 10%, var(--surface));
+}
+
+.cloud-sync-state[data-state="syncing"],
+.cloud-sync-state[data-state="pending"] {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+}
+
+.cloud-sync-state[data-state="offline"] {
+  color: var(--orange);
+  background: color-mix(in srgb, var(--orange) 11%, var(--surface));
+}
+
+.cloud-code-row {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.cloud-code-row code {
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  background: var(--soft);
+  font-size: 11px;
+}
+
+.cloud-code-row small {
+  margin-left: auto;
+}
+
+.cloud-sync-actions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  max-width: 310px;
+}
+
+.cloud-sync-actions .text-button {
+  padding: 5px 7px;
+  font-size: 11px;
+}
+
 @media (max-width: 800px) {
   body {
     padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
@@ -454,6 +542,41 @@ select {
     grid-template-columns: 44px 1fr;
     gap: 15px;
     padding: 17px;
+  }
+
+  .view-settings .cloud-sync-panel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 17px;
+  }
+
+  .view-settings .cloud-sync-panel > .data-icon {
+    display: none;
+  }
+
+  .view-settings .cloud-sync-copy p {
+    display: none;
+  }
+
+  .view-settings .cloud-code-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  .view-settings .cloud-code-row small {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  .view-settings .cloud-sync-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: none;
+  }
+
+  .view-settings .cloud-sync-actions .text-button {
+    grid-column: 1 / -1;
   }
 
   .view-settings .voice-settings-copy {

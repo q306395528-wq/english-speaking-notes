@@ -2,9 +2,17 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "english-speaking-notes",
   "pages_build_output_dir": ".",
-  "compatibility_date": "2026-07-28",
+  "compatibility_date": "2026-07-17",
   "compatibility_flags": ["nodejs_compat"],
   "ai": {
     "binding": "AI"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "SYNC_DB",
+      "database_name": "english-speaking-notes-db",
+      "database_id": "0e3780f3-1a13-4748-93ce-c938594e2a95",
+      "migrations_dir": "migrations"
+    }
+  ]
 }
