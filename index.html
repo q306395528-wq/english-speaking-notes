@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./dictionary.css">
   <link rel="stylesheet" href="./practice.css">
   <link rel="stylesheet" href="./recording.css?v=20260728-recording">
+  <link rel="stylesheet" href="./learning.css?v=20260728-learning">
 </head>
 <body>
   <header class="topbar">
@@ -57,20 +58,20 @@
 
       <div class="stats-grid" aria-label="学习统计">
         <article class="stat-card">
-          <span class="stat-icon due">↻</span>
-          <div><strong id="dueCount">0</strong><span>今日待复习</span></div>
+          <span class="stat-icon today-new">＋</span>
+          <div><strong id="todayNewCount">0</strong><span>今日新学</span></div>
         </article>
         <article class="stat-card">
-          <span class="stat-icon new">＋</span>
-          <div><strong id="newCount">0</strong><span>尚未学习</span></div>
+          <span class="stat-icon today-review">↻</span>
+          <div><strong id="todayReviewCount">0</strong><span>今日复习</span></div>
         </article>
         <article class="stat-card">
-          <span class="stat-icon streak">🔥</span>
-          <div><strong id="streakCount">0</strong><span>连续学习天数</span></div>
+          <span class="stat-icon today-remembered">✓</span>
+          <div><strong id="todayRememberedCount">0</strong><span>今日记住</span></div>
         </article>
         <article class="stat-card">
-          <span class="stat-icon mastery">✓</span>
-          <div><strong id="masteredCount">0</strong><span>已掌握句子</span></div>
+          <span class="stat-icon due">◎</span>
+          <div><strong id="dueCount">0</strong><span>当前待复习</span></div>
         </article>
       </div>
 
@@ -106,15 +107,15 @@
           <div class="panel-heading">
             <div>
               <span class="section-kicker">PROGRESS</span>
-              <h2>本周学习</h2>
+              <h2>近七天学习</h2>
             </div>
-            <strong id="weekReviewCount">0 次</strong>
+            <strong id="weekReviewCount">记住 0 句</strong>
           </div>
           <div class="week-chart" id="weekChart" aria-label="最近七天复习次数"></div>
           <div class="progress-summary">
-            <div><span>本周复习</span><strong id="weekTotal">0</strong></div>
-            <div><span>收藏重点</span><strong id="favoriteCount">0</strong></div>
-            <div><span>掌握率</span><strong id="masteryRate">0%</strong></div>
+            <div><span>新学</span><strong id="weekNewTotal">0</strong></div>
+            <div><span>复习</span><strong id="weekReviewTotal">0</strong></div>
+            <div><span>记住</span><strong id="weekRememberedTotal">0</strong></div>
           </div>
         </article>
       </div>
@@ -185,8 +186,10 @@
           <option value="all">全部状态</option>
           <option value="due">待复习</option>
           <option value="new">未学习</option>
+          <option value="know">认识</option>
+          <option value="fuzzy">模糊</option>
+          <option value="forget">忘记</option>
           <option value="favorite">已收藏</option>
-          <option value="mastered">已掌握</option>
         </select>
       </div>
 
@@ -295,12 +298,11 @@
     <div class="practice-body" id="practiceBody"></div>
 
     <div class="rating-area hidden" id="ratingArea">
-      <p>这句话你掌握得怎么样？</p>
-      <div class="rating-buttons">
-        <button data-rating="again" type="button"><strong>再来</strong><small>明天复习</small></button>
-        <button data-rating="hard" type="button"><strong>有点难</strong><small>3 天后</small></button>
-        <button data-rating="good" type="button"><strong>记住了</strong><small>7 天后</small></button>
-        <button data-rating="easy" type="button"><strong>很熟练</strong><small>30 天后</small></button>
+      <p>现在对这句话的记忆状态是？</p>
+      <div class="rating-buttons learning-ratings">
+        <button data-rating="forget" type="button"><strong>忘记</strong><small>今天重新学习</small></button>
+        <button data-rating="fuzzy" type="button"><strong>模糊</strong><small>今天再次巩固</small></button>
+        <button data-rating="know" type="button"><strong>认识</strong><small>自适应安排复习</small></button>
       </div>
     </div>
   </dialog>
@@ -354,6 +356,6 @@
     <span>你的内容按日期保存在 data 文件夹中。</span>
   </footer>
 
-  <script src="./app.js?v=20260728-recording" defer></script>
+  <script type="module" src="./app.js?v=20260728-learning"></script>
 </body>
 </html>

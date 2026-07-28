@@ -1,0 +1,69 @@
+.stat-icon.today-new {
+  color: var(--green);
+  background: #e9faf3;
+}
+
+.stat-icon.today-review {
+  color: var(--orange);
+  background: #fff3e7;
+}
+
+.stat-icon.today-remembered {
+  color: var(--primary);
+  background: #eef0ff;
+}
+
+.status-tag.status-know {
+  color: var(--green);
+  background: #e9faf3;
+}
+
+.status-tag.status-fuzzy {
+  color: var(--orange);
+  background: #fff3e7;
+}
+
+.status-tag.status-forget {
+  color: var(--red);
+  background: #fff0f2;
+}
+
+.rating-buttons.learning-ratings {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.learning-ratings button {
+  min-height: 66px;
+}
+
+.learning-ratings button[data-rating="forget"] strong {
+  color: var(--red);
+}
+
+.learning-ratings button[data-rating="fuzzy"] strong {
+  color: var(--orange);
+}
+
+.learning-ratings button[data-rating="know"] strong {
+  color: var(--green);
+}
+
+.relearn-note {
+  margin: 0 0 10px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  color: var(--orange);
+  background: #fff3e7;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@media (max-width: 520px) {
+  .rating-buttons.learning-ratings {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-ratings button {
+    min-height: 52px;
+  }
+}
