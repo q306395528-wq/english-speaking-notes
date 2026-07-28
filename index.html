@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./voice-settings.css">
   <link rel="stylesheet" href="./dictionary.css">
   <link rel="stylesheet" href="./practice.css">
+  <link rel="stylesheet" href="./recording.css">
 </head>
 <body>
   <header class="topbar">
@@ -302,6 +303,21 @@
         <button data-rating="easy" type="button"><strong>很熟练</strong><small>30 天后</small></button>
       </div>
     </div>
+  </dialog>
+
+  <dialog class="record-dialog" id="recordDialog" aria-labelledby="recordDialogTitle">
+    <div class="practice-header">
+      <div>
+        <span class="section-kicker">PRONUNCIATION COMPARE</span>
+        <h2 id="recordDialogTitle">录音对比</h2>
+      </div>
+      <button class="icon-button" id="closeRecordDialog" type="button" aria-label="关闭录音对比">×</button>
+    </div>
+    <div class="record-dialog-copy">
+      <h3 id="recordSentence"></h3>
+      <p id="recordChinese"></p>
+    </div>
+    <div class="record-dialog-body" id="recordDialogBody"></div>
   </dialog>
 
   <dialog class="confirm-dialog" id="confirmDialog">

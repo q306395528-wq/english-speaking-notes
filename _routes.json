@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/tts", "/api/dictionary"],
+  "include": ["/api/tts", "/api/dictionary", "/api/transcribe"],
   "exclude": []
 }

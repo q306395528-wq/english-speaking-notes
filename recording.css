@@ -1,0 +1,175 @@
+.recording-panel {
+  display: grid;
+  gap: 13px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--soft);
+}
+
+.recording-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.recording-status-row strong,
+.recording-status-row small {
+  display: block;
+}
+
+.recording-status-row small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.recording-indicator {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.recording-panel.is-recording .recording-indicator {
+  background: var(--red);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--red) 16%, transparent);
+  animation: recording-pulse 1.1s infinite;
+}
+
+.recording-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.recording-controls .button {
+  min-width: 112px;
+}
+
+.recording-controls .button:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+}
+
+.recording-result {
+  display: grid;
+  gap: 10px;
+}
+
+.recording-result:empty {
+  display: none;
+}
+
+.recording-result-card {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.recording-result-card small,
+.recording-result-card strong {
+  display: block;
+}
+
+.recording-result-card small {
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+
+.recording-score {
+  color: var(--primary);
+  font-size: 21px;
+}
+
+.speech-comparison {
+  line-height: 2;
+}
+
+.speech-word {
+  display: inline-block;
+  margin: 2px 3px 2px 0;
+  padding: 1px 6px;
+  border-radius: 7px;
+}
+
+.speech-word.match {
+  color: var(--green);
+  background: #e9faf3;
+}
+
+.speech-word.miss {
+  color: var(--red);
+  background: #fff0f2;
+  text-decoration: line-through;
+}
+
+.speech-word.extra {
+  color: var(--orange);
+  background: #fff3e7;
+}
+
+.recording-note {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.record-dialog {
+  width: min(620px, calc(100% - 26px));
+  max-height: 86vh;
+  padding: 0;
+  border: 0;
+  border-radius: 23px;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 30px 100px rgba(15, 20, 48, .33);
+}
+
+.record-dialog-copy {
+  padding: 20px 23px 0;
+}
+
+.record-dialog-copy h3 {
+  margin: 0 0 5px;
+  font-size: clamp(21px, 4vw, 29px);
+}
+
+.record-dialog-copy p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.record-dialog-body {
+  padding: 0 23px 23px;
+}
+
+@keyframes recording-pulse {
+  50% {
+    transform: scale(.72);
+    opacity: .6;
+  }
+}
+
+@media (max-width: 560px) {
+  .recording-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .recording-controls .button {
+    min-width: 0;
+  }
+
+  .recording-controls .recording-primary {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recording-panel.is-recording .recording-indicator {
+    animation: none;
+  }
+}
