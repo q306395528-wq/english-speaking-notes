@@ -13,6 +13,7 @@
 - 错句与正确句对照
 - 日期、场景、难度、状态和关键词筛选
 - 收藏、英文朗读和单句练习
+- Cloudflare Aura-2 自然语音（不可用时自动使用浏览器语音）
 - 学习进度导出、导入和重置
 - 深色模式和手机端布局
 - 每日 JSON 编辑器 `add.html`
@@ -26,6 +27,9 @@ english-speaking-notes-v2/
 ├── add.html                  每日内容编辑器
 ├── app.js                    学习、复习和数据逻辑
 ├── styles.css                公共样式
+├── functions/api/tts.js      自然语音接口
+├── _routes.json              Pages Functions 路由
+├── wrangler.jsonc            Cloudflare Pages 与 AI 绑定配置
 ├── data/
 │   ├── index.json            日期文件目录
 │   └── 2026-07-28.json       某一天的学习内容
@@ -106,6 +110,10 @@ http://localhost:8000
 
 保存后，Cloudflare Pages 会部署当前 `main` 分支。以后向 `main`
 推送更新时，Cloudflare Pages 会自动重新部署。
+
+自然语音通过 Cloudflare Workers AI 绑定调用 Aura-2，不需要也不会在
+GitHub 中保存 API Token。同一句课程内容会在 Cloudflare 边缘缓存；
+如果自然语音暂时不可用，网站会自动改用浏览器自带的英文朗读。
 
 ## 发布前检查
 

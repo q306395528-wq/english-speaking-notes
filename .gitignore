@@ -2,3 +2,9 @@
 Thumbs.db
 *.log
 __pycache__/
+.wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
