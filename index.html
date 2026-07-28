@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#5b67f1">
   <meta name="description" content="个人英语口语学习、错句纠正和间隔复习网站">
   <title>我的英语口语库 V2</title>
+  <style>html{background:#f4f6fa;color-scheme:light}html[data-theme="dark"]{background:#0d1320;color-scheme:dark}</style>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem("english-theme")||"light"}catch{}</script>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./voice-settings.css">
   <link rel="stylesheet" href="./dictionary.css">
@@ -13,7 +15,7 @@
   <link rel="stylesheet" href="./recording.css?v=20260728-recording">
   <link rel="stylesheet" href="./learning.css?v=20260728-learning">
   <link rel="stylesheet" href="./product-polish.css?v=20260728-polish">
-  <link rel="stylesheet" href="./mobile-app.css?v=20260728-pages">
+  <link rel="stylesheet" href="./mobile-app.css?v=20260728-fast">
 </head>
 <body data-view="home">
   <header class="topbar">
@@ -379,6 +381,10 @@
     </a>
   </nav>
 
-  <script type="module" src="./app.js?v=20260728-pages"></script>
+  <script type="module">
+    import { installPageNavigation } from "./page-navigation.js?v=20260728-fast";
+    installPageNavigation("home");
+  </script>
+  <script type="module" src="./app.js?v=20260728-fast"></script>
 </body>
 </html>

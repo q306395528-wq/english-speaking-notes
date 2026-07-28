@@ -2,6 +2,14 @@
   --tabbar-height: 74px;
 }
 
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .mobile-tabbar,
 .standalone-heading {
   display: none;
