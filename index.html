@@ -8,6 +8,7 @@
   <title>我的英语口语库 V2</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./voice-settings.css">
+  <link rel="stylesheet" href="./dictionary.css">
 </head>
 <body>
   <header class="topbar">
@@ -159,7 +160,7 @@
         <div>
           <span class="section-kicker">SENTENCE LIBRARY</span>
           <h2>句子库</h2>
-          <p>按日期、场景、难度或关键词找到你学过的表达。</p>
+          <p>按日期、场景、难度或关键词查找；点击英文单词可看音标和释义。</p>
         </div>
         <a class="button button-soft" href="./add.html">＋ 添加今天的内容</a>
       </div>
@@ -308,6 +309,24 @@
     <div class="dialog-actions">
       <button class="button button-soft" id="confirmCancel" type="button">取消</button>
       <button class="button button-danger" id="confirmOk" type="button">确认</button>
+    </div>
+  </dialog>
+
+  <dialog class="word-dialog" id="wordDialog" aria-labelledby="wordDialogTitle">
+    <div class="word-dialog-header">
+      <div>
+        <span class="section-kicker">WORD LOOKUP</span>
+        <div class="word-title-row">
+          <h2 id="wordDialogTitle">Word</h2>
+          <span id="wordPhonetic"></span>
+        </div>
+      </div>
+      <button class="icon-button" id="closeWordDialog" type="button" aria-label="关闭单词解释">×</button>
+    </div>
+    <div class="word-dialog-body" id="wordDialogBody" aria-live="polite"></div>
+    <div class="word-dialog-actions">
+      <button class="button button-primary" id="playWord" type="button">🔊 单词发音</button>
+      <span>释义来源：Free Dictionary API</span>
     </div>
   </dialog>
 

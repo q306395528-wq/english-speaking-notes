@@ -1,0 +1,137 @@
+.word-button {
+  display: inline;
+  margin: 0;
+  padding: 0 1px;
+  border: 0;
+  border-radius: 5px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.word-button:hover,
+.word-button:focus-visible {
+  color: var(--primary);
+  background: #eef0ff;
+  outline: 2px solid transparent;
+}
+
+.word-dialog {
+  width: min(620px, calc(100% - 24px));
+  max-height: 86vh;
+  padding: 0;
+  border: 0;
+  border-radius: 23px;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 30px 100px rgba(15, 20, 48, .33);
+}
+
+.word-dialog-header,
+.word-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 19px 22px;
+}
+
+.word-dialog-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.word-title-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.word-title-row h2 {
+  margin: 3px 0 0;
+  font-size: clamp(28px, 6vw, 42px);
+}
+
+#wordPhonetic {
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.word-dialog-body {
+  min-height: 190px;
+  max-height: 52vh;
+  padding: 20px 22px;
+  overflow-y: auto;
+}
+
+.word-loading,
+.word-error {
+  display: grid;
+  min-height: 150px;
+  place-items: center;
+  color: var(--muted);
+  text-align: center;
+}
+
+.word-meaning + .word-meaning {
+  margin-top: 19px;
+  padding-top: 17px;
+  border-top: 1px solid var(--line);
+}
+
+.word-part {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: var(--primary);
+  background: #eef0ff;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.word-definitions {
+  margin: 11px 0 0;
+  padding-left: 22px;
+}
+
+.word-definitions li + li {
+  margin-top: 11px;
+}
+
+.word-example {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.word-dialog-actions {
+  border-top: 1px solid var(--line);
+}
+
+.word-dialog-actions span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+[data-theme="dark"] .word-button:hover,
+[data-theme="dark"] .word-button:focus-visible,
+[data-theme="dark"] .word-part {
+  background: #252f54;
+}
+
+@media (max-width: 520px) {
+  .word-dialog-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .word-dialog-actions .button {
+    width: 100%;
+  }
+}

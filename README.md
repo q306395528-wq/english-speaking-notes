@@ -15,6 +15,7 @@
 - 收藏、英文朗读和单句练习
 - Cloudflare Aura-2 自然语音（不可用时自动使用浏览器语音）
 - 男声 / 女声与语速设置（保存在浏览器本地）
+- 点击英文单词查看音标、词性、释义和单词发音
 - 学习进度导出、导入和重置
 - 深色模式和手机端布局
 - 每日 JSON 编辑器 `add.html`
@@ -28,6 +29,8 @@ english-speaking-notes-v2/
 ├── add.html                  每日内容编辑器
 ├── app.js                    学习、复习和数据逻辑
 ├── styles.css                公共样式
+├── dictionary.css            点词查询弹窗样式
+├── functions/api/dictionary.js 免费词典查询与边缘缓存
 ├── functions/api/tts.js      自然语音接口
 ├── _routes.json              Pages Functions 路由
 ├── wrangler.jsonc            Cloudflare Pages 与 AI 绑定配置
@@ -116,6 +119,8 @@ http://localhost:8000
 GitHub 中保存 API Token。同一句课程内容会在 Cloudflare 边缘缓存；
 如果自然语音暂时不可用，网站会自动改用浏览器自带的英文朗读。
 语音设置支持 Luna 女声、Apollo 男声和 `0.70×` 至 `1.20×` 语速。
+句子中的英文单词可以点击查询，音标、词性、英文释义与单词音频来自
+Free Dictionary API；无需 API Key，查询结果会在 Cloudflare 边缘缓存。
 
 ## 发布前检查
 
