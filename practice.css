@@ -1,0 +1,86 @@
+.practice-body.practice-body-dictation {
+  min-height: 0;
+  align-content: start;
+  padding-top: 22px;
+  padding-bottom: 24px;
+}
+
+.dictation-practice {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+}
+
+.dictation-audio-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--soft);
+}
+
+.dictation-headphones {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #eef0ff;
+  font-size: 27px;
+}
+
+.dictation-audio-copy strong,
+.dictation-audio-copy small {
+  display: block;
+}
+
+.dictation-audio-copy small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.dictation-input {
+  min-height: 54px;
+  margin-top: 0;
+}
+
+.dictation-result:empty {
+  display: none;
+}
+
+.dictation-actions {
+  flex-wrap: wrap;
+}
+
+.dictation-actions .button {
+  min-width: 118px;
+}
+
+.practice-actions .button:disabled {
+  cursor: wait;
+  opacity: .72;
+}
+
+@media (max-width: 560px) {
+  .dictation-audio-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .dictation-audio-card .button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .dictation-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dictation-actions .button {
+    min-width: 0;
+  }
+}
