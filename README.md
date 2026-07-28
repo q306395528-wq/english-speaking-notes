@@ -25,7 +25,6 @@ english-speaking-notes-v2/
 ├── index.html                学习主页
 ├── add.html                  每日内容编辑器
 ├── app.js                    学习、复习和数据逻辑
-├── add.js                    每日 JSON 生成逻辑
 ├── styles.css                公共样式
 ├── data/
 │   ├── index.json            日期文件目录
@@ -93,12 +92,18 @@ http://localhost:8000
 
 `id` 必须在整个项目中唯一。推荐用“日期 + 英文短句”的格式。
 
-## 发布到 GitHub Pages
+## 发布到 Cloudflare Pages
 
-1. 新建 GitHub 仓库并上传整个项目。
-2. 在仓库 Pages 设置中选择从 `main` 分支根目录发布。
-3. 推送后等待网站构建完成。
-4. 以后修改 `data/` 并推送，网站内容就会更新。
+在 Cloudflare Pages 中连接这个 GitHub 仓库，并使用以下设置：
+
+- Project name：`english-speaking-notes`
+- Production branch：`main`
+- Framework preset：`None`
+- Build command：留空
+- Build output directory：仓库根目录（`/`）
+
+保存后，Cloudflare Pages 会部署当前 `main` 分支。以后向 `main`
+推送更新时，Cloudflare Pages 会自动重新部署。
 
 ## 发布前检查
 
