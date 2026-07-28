@@ -1,0 +1,62 @@
+.voice-settings-panel {
+  display: grid;
+  grid-template-columns: auto minmax(210px, 1fr) minmax(150px, .7fr) minmax(190px, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+  padding: 20px 22px;
+}
+
+.voice-settings-copy h3,
+.voice-settings-copy p {
+  margin: 0;
+}
+
+.voice-settings-copy p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.voice-setting {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.voice-setting select {
+  width: 100%;
+}
+
+.voice-setting output {
+  float: right;
+  color: var(--primary);
+}
+
+.voice-setting input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary);
+}
+
+@media (max-width: 900px) {
+  .voice-settings-panel {
+    grid-template-columns: auto 1fr;
+  }
+
+  .voice-setting,
+  .voice-settings-panel .button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .voice-settings-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-settings-panel .data-icon {
+    display: none;
+  }
+}

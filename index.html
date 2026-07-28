@@ -7,6 +7,7 @@
   <meta name="description" content="个人英语口语学习、错句纠正和间隔复习网站">
   <title>我的英语口语库 V2</title>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./voice-settings.css">
 </head>
 <body>
   <header class="topbar">
@@ -221,6 +222,26 @@
           <p>学习进度保存在浏览器本地。定期导出，换设备也不会丢失。</p>
         </div>
       </div>
+
+      <article class="panel voice-settings-panel" aria-labelledby="voiceSettingsTitle">
+        <span class="data-icon" aria-hidden="true">🔊</span>
+        <div class="voice-settings-copy">
+          <h3 id="voiceSettingsTitle">语音设置</h3>
+          <p>选择自然音色和播放速度，设置只保存在当前浏览器。</p>
+        </div>
+        <label class="voice-setting">
+          <span>音色</span>
+          <select id="voiceGender">
+            <option value="female">女声 · Luna</option>
+            <option value="male">男声 · Apollo</option>
+          </select>
+        </label>
+        <label class="voice-setting">
+          <span>语速 <output id="voiceRateValue" for="voiceRate">0.95×</output></span>
+          <input id="voiceRate" type="range" min="0.70" max="1.20" step="0.05" value="0.95">
+        </label>
+        <button class="button button-soft" id="voicePreview" type="button">试听</button>
+      </article>
 
       <div class="data-grid">
         <article class="panel data-card">

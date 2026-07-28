@@ -1,6 +1,9 @@
 const MODEL = "@cf/deepgram/aura-2-en";
-const SPEAKER = "luna";
-const CACHE_VERSION = "v1";
+const VOICES = Object.freeze({
+  female: "luna",
+  male: "apollo",
+});
+const CACHE_VERSION = "v2";
 const MAX_DAYS = 5000;
 const MAX_LESSONS_PER_DAY = 500;
 
@@ -92,10 +95,13 @@ async function handleGet(context) {
   const requestUrl = new URL(context.request.url);
   const date = requestUrl.searchParams.get("date") || "";
   const id = requestUrl.searchParams.get("id") || "";
+  const voice = requestUrl.searchParams.get("voice") || "female";
+  const speaker = VOICES[voice];
 
   if (
     !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
-    !/^[a-z0-9][a-z0-9-]{0,119}$/.test(id)
+    !/^[a-z0-9][a-z0-9-]{0,119}$/.test(id) ||
+    !speaker
   ) {
     return jsonError("Invalid lesson reference", 400);
   }
@@ -108,7 +114,7 @@ async function handleGet(context) {
 
     const textHash = await hashText(lesson.english);
     const cacheUrl = new URL(
-      `/__tts-cache/${CACHE_VERSION}/${date}/${id}-${textHash}.mp3`,
+      `/__tts-cache/${CACHE_VERSION}/${voice}/${date}/${id}-${textHash}.mp3`,
       requestUrl.origin,
     );
     const cacheKey = new Request(cacheUrl);
@@ -127,7 +133,7 @@ async function handleGet(context) {
       MODEL,
       {
         text: lesson.english,
-        speaker: SPEAKER,
+        speaker,
         encoding: "mp3",
       },
       { returnRawResponse: true },
@@ -140,6 +146,7 @@ async function handleGet(context) {
           model: MODEL,
           status: aiResponse.status,
           lessonId: id,
+          voice,
         }),
       );
       return jsonError("Natural voice is temporarily unavailable", 503);
@@ -150,6 +157,7 @@ async function handleGet(context) {
     headers.set("Cache-Control", "public, max-age=31536000, immutable");
     headers.set("X-Content-Type-Options", "nosniff");
     headers.set("X-TTS-Cache", "MISS");
+    headers.set("X-TTS-Voice", voice);
     const response = new Response(aiResponse.body, { status: 200, headers });
 
     context.waitUntil(
@@ -159,6 +167,7 @@ async function handleGet(context) {
             message: "TTS cache write failed",
             error: error instanceof Error ? error.message : String(error),
             lessonId: id,
+            voice,
           }),
         );
       }),
@@ -171,6 +180,7 @@ async function handleGet(context) {
         message: "TTS request failed",
         error: error instanceof Error ? error.message : String(error),
         lessonId: id,
+        voice,
       }),
     );
     return jsonError("Natural voice is temporarily unavailable", 503);
