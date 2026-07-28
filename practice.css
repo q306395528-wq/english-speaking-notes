@@ -81,53 +81,144 @@
   margin: 0 auto;
 }
 
-.output-practice > .prompt-label,
-.output-practice > .practice-prompt {
+.output-practice > .prompt-label {
   display: block;
   text-align: center;
 }
 
-.output-method {
+.output-prompt-card {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 20px;
-  color: var(--text);
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 116px;
+  margin-top: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--soft);
+}
+
+.output-prompt-icon {
+  flex: 0 0 auto;
+  color: var(--primary);
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: -4px;
+}
+
+.output-prompt-card .practice-prompt {
+  margin: 0;
+  font-size: clamp(24px, 3.5vw, 33px);
   text-align: left;
 }
 
-.output-method span {
-  font-size: 13px;
-  font-weight: 850;
+.output-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 4px;
+  border-radius: 13px;
+  background: var(--soft);
 }
 
-.output-method small {
+.output-tabs button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  color: var(--muted);
+  background: transparent;
+  font-weight: 800;
+}
+
+.output-tabs button.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--primary) 24%, transparent);
+}
+
+.output-record-section,
+.output-write-section {
+  margin-top: 18px;
+}
+
+.output-section-heading {
+  display: block;
+  padding-left: 12px;
+  border-left: 3px solid var(--primary);
+  text-align: left;
+}
+
+.output-section-heading strong,
+.output-section-heading small {
+  display: block;
+}
+
+.output-section-heading small {
+  margin-top: 2px;
   color: var(--muted);
   font-size: 11px;
 }
 
 .output-practice .recording-panel {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
-.written-answer {
-  margin-top: 16px;
-  padding-top: 15px;
-  border-top: 1px solid var(--line);
+.output-record-section .recording-ai {
+  display: none;
 }
 
-.written-answer .output-method {
-  margin-top: 0;
+.output-write-section {
+  padding-top: 0;
+  border-top: 0;
 }
 
-.written-answer .dictation-input {
-  margin-top: 8px;
+.output-write-section .dictation-input {
+  margin-top: 12px;
 }
 
 .output-actions {
   justify-content: flex-end;
   margin-top: 10px;
+}
+
+.output-ai-button {
+  width: 100%;
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--text);
+  background: var(--soft);
+  text-align: left;
+}
+
+.output-ai-button span {
+  min-width: 28px;
+  padding: 2px 4px;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.output-ai-button b {
+  color: var(--muted);
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.output-practice[data-active-output="record"] .output-write-section,
+.output-practice[data-active-output="write"] .output-record-section {
+  display: none;
 }
 
 @media (max-width: 560px) {
@@ -153,12 +244,7 @@
     min-width: 0;
   }
 
-  .output-method {
-    display: block;
-  }
-
-  .output-method small {
-    display: block;
-    margin-top: 2px;
+  .output-prompt-card {
+    min-height: 104px;
   }
 }

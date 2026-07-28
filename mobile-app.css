@@ -686,7 +686,9 @@ select {
 
   .practice-progress > div:first-child {
     justify-content: center;
+    color: var(--primary);
     font-size: 12px;
+    font-weight: 850;
   }
 
   #practiceCategory {
@@ -717,7 +719,7 @@ select {
     display: grid;
     align-content: start;
     max-height: none;
-    padding: 24px 18px 30px;
+    padding: 30px 18px 34px;
   }
 
   .practice-dialog:has(.rating-area:not(.hidden)) .practice-body {
@@ -830,27 +832,140 @@ select {
     width: 100%;
   }
 
-  .output-practice .practice-prompt {
-    margin-bottom: 22px;
+  .output-practice > .prompt-label {
+    color: var(--muted);
+    text-align: left;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .output-prompt-card {
+    min-height: 124px;
+    justify-content: flex-start;
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 15px;
+    background: color-mix(in srgb, var(--soft) 82%, transparent);
+  }
+
+  .output-prompt-card .practice-prompt {
+    margin: 0;
+    font-size: clamp(24px, 7.2vw, 32px);
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .output-tabs {
+    margin-top: 16px;
+    padding: 4px;
+    border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  }
+
+  .output-tabs button {
+    min-height: 52px;
+    font-size: 15px;
+  }
+
+  .output-record-section,
+  .output-write-section {
+    margin-top: 28px;
+  }
+
+  .output-section-heading {
+    padding-left: 11px;
+    text-align: left;
+  }
+
+  .output-section-heading strong {
+    font-size: 16px;
+  }
+
+  .output-section-heading small {
+    margin-top: 4px;
+    line-height: 1.45;
   }
 
   .output-practice .recording-panel {
-    margin-top: 10px;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    background: color-mix(in srgb, var(--soft) 75%, transparent);
   }
 
-  .written-answer {
-    margin-top: 18px;
-    padding-top: 18px;
+  .output-record-section .recording-status-row {
+    justify-content: flex-start;
+    text-align: left;
   }
 
-  .written-answer .dictation-input {
-    margin-top: 9px;
+  .output-record-section .recording-status-row small {
+    display: block;
+    margin-left: auto;
+  }
+
+  .output-record-section .recording-indicator {
+    order: -1;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    margin-right: 2px;
+    border: 1px solid color-mix(in srgb, var(--primary) 42%, var(--line));
+    background: color-mix(in srgb, var(--primary) 16%, var(--surface));
+  }
+
+  .output-record-section .recording-indicator::after {
+    content: "●";
+    color: var(--primary);
+    font-size: 13px;
+  }
+
+  .output-record-section .recording-controls {
+    display: grid;
+    grid-template-columns: 1.25fr .9fr .9fr;
+    gap: 7px;
+  }
+
+  .output-record-section .recording-controls .button {
+    grid-column: auto;
+    min-width: 0;
+    min-height: 48px;
+    padding: 7px 5px;
+    font-size: 12px;
+  }
+
+  .output-record-section .recording-ai {
+    display: none;
+  }
+
+  .output-record-section .recording-reset {
+    display: inline-flex;
+  }
+
+  .output-write-section {
+    padding-top: 0;
+    border: 0;
+  }
+
+  .output-write-section .dictation-input {
+    min-height: 58px;
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 13px;
   }
 
   .output-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 9px;
+  }
+
+  .output-ai-button {
+    min-height: 58px;
+    margin-top: 22px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--soft) 82%, transparent);
   }
 
   .dictation-actions {
