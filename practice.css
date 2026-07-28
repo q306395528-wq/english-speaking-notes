@@ -65,7 +65,76 @@
   opacity: .72;
 }
 
+.mode-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.practice-body.practice-body-output {
+  min-height: 0;
+  align-content: start;
+  max-height: calc(86vh - 185px);
+  overflow-y: auto;
+}
+
+.output-practice {
+  width: min(100%, 620px);
+  margin: 0 auto;
+}
+
+.output-practice > .prompt-label,
+.output-practice > .practice-prompt {
+  display: block;
+  text-align: center;
+}
+
+.output-method {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  color: var(--text);
+  text-align: left;
+}
+
+.output-method span {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.output-method small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.output-practice .recording-panel {
+  margin-top: 8px;
+}
+
+.written-answer {
+  margin-top: 16px;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+}
+
+.written-answer .output-method {
+  margin-top: 0;
+}
+
+.written-answer .dictation-input {
+  margin-top: 8px;
+}
+
+.output-actions {
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
 @media (max-width: 560px) {
+  .mode-grid {
+    grid-template-columns: 1fr;
+  }
+
   .dictation-audio-card {
     grid-template-columns: auto 1fr;
   }
@@ -82,5 +151,14 @@
 
   .dictation-actions .button {
     min-width: 0;
+  }
+
+  .output-method {
+    display: block;
+  }
+
+  .output-method small {
+    display: block;
+    margin-top: 2px;
   }
 }

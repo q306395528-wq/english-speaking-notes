@@ -1,4 +1,4 @@
-const SHELL_CACHE_KEY = "english-v2-shell-20260728-cloud";
+const SHELL_CACHE_KEY = "english-v2-shell-20260728-output";
 
 const pages = {
   home: {
@@ -10,7 +10,7 @@ const pages = {
     file: "practice.html",
     title: "练习 · 我的英语口语库",
     sections: ["practice"],
-    heading: ["PRACTICE", "练习", "选择训练方式"]
+    heading: ["PRACTICE", "练习", "说出来，也可以写下来"]
   },
   library: {
     file: "library.html",

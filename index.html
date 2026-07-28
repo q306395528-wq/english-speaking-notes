@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="./recording.css?v=20260728-recording">
   <link rel="stylesheet" href="./learning.css?v=20260728-learning">
   <link rel="stylesheet" href="./product-polish.css?v=20260728-polish">
-  <link rel="stylesheet" href="./mobile-app.css?v=20260728-cloud">
+  <link rel="stylesheet" href="./mobile-app.css?v=20260728-output">
 </head>
 <body data-view="home">
   <header class="topbar">
@@ -91,18 +91,13 @@
             <span class="date-pill" id="todayLabel"></span>
           </div>
           <div class="task-list">
-            <button class="task-row" type="button" data-task-mode="translation">
+            <button class="task-row" type="button" data-task-mode="output">
               <span class="task-number">01</span>
-              <span><strong>看中文说英文</strong><small>检验你是否真的能主动说出来</small></span>
-              <b id="translationTaskCount">0 句</b>
-            </button>
-            <button class="task-row" type="button" data-task-mode="dictation">
-              <span class="task-number">02</span>
-              <span><strong>听写训练</strong><small>听发音后输入完整英文</small></span>
-              <b id="dictationTaskCount">0 句</b>
+              <span><strong>看中文答英文</strong><small>可以录音说，也可以输入英文</small></span>
+              <b id="outputTaskCount">0 句</b>
             </button>
             <button class="task-row" type="button" data-task-mode="shadowing">
-              <span class="task-number">03</span>
+              <span class="task-number">02</span>
               <span><strong>跟读训练</strong><small>同一句自动播放三遍</small></span>
               <b id="shadowTaskCount">0 句</b>
             </button>
@@ -132,21 +127,15 @@
         <div>
           <span class="section-kicker">PRACTICE MODES</span>
           <h2>选择一种练习方式</h2>
-          <p>不同模式训练不同能力。口语进步最快的组合是：主动翻译、听写、跟读。</p>
+          <p>先主动输出，再用 AI 发音检查；同一道题可以开口说，也可以输入英文。</p>
         </div>
       </div>
 
       <div class="mode-grid">
-        <button class="mode-card" data-mode="translation" type="button">
-          <span class="mode-icon">中 → EN</span>
-          <h3>看中文说英文</h3>
-          <p>先看中文，自己说英文，再揭晓答案并评分。</p>
-          <span>开始练习 →</span>
-        </button>
-        <button class="mode-card" data-mode="dictation" type="button">
-          <span class="mode-icon">LISTEN</span>
-          <h3>听写模式</h3>
-          <p>播放英语发音，输入你听到的完整句子。</p>
+        <button class="mode-card" data-mode="output" type="button">
+          <span class="mode-icon">说 / 写</span>
+          <h3>看中文答英文</h3>
+          <p>看中文后录音说出或输入英文，也可播放 AI 发音进行听写与对比。</p>
           <span>开始练习 →</span>
         </button>
         <button class="mode-card" data-mode="shadowing" type="button">
@@ -157,8 +146,8 @@
         </button>
         <button class="mode-card" data-mode="random" type="button">
           <span class="mode-icon">MIX</span>
-          <h3>随机测试</h3>
-          <p>随机从中文、英文或错句中抽题，保持反应速度。</p>
+          <h3>随机练习</h3>
+          <p>随机切换主动输出与跟读，保持理解和表达速度。</p>
           <span>开始练习 →</span>
         </button>
       </div>
@@ -403,9 +392,9 @@
   </nav>
 
   <script type="module">
-    import { installPageNavigation } from "./page-navigation.js?v=20260728-cloud";
+    import { installPageNavigation } from "./page-navigation.js?v=20260728-output";
     installPageNavigation("home");
   </script>
-  <script type="module" src="./app.js?v=20260728-cloud2"></script>
+  <script type="module" src="./app.js?v=20260728-output"></script>
 </body>
 </html>

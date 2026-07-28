@@ -713,6 +713,13 @@ select {
     padding: 28px 22px;
   }
 
+  .practice-body.practice-body-output {
+    display: grid;
+    align-content: start;
+    max-height: none;
+    padding: 24px 18px 30px;
+  }
+
   .practice-dialog:has(.rating-area:not(.hidden)) .practice-body {
     align-content: start;
   }
@@ -817,6 +824,33 @@ select {
     min-height: 52px;
     margin-top: 24px;
     text-align: left;
+  }
+
+  .output-practice {
+    width: 100%;
+  }
+
+  .output-practice .practice-prompt {
+    margin-bottom: 22px;
+  }
+
+  .output-practice .recording-panel {
+    margin-top: 10px;
+  }
+
+  .written-answer {
+    margin-top: 18px;
+    padding-top: 18px;
+  }
+
+  .written-answer .dictation-input {
+    margin-top: 9px;
+  }
+
+  .output-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
   }
 
   .dictation-actions {
