@@ -94,6 +94,8 @@ http://localhost:8000
 
 ## 发布到 Cloudflare Pages
 
+线上地址：<https://english-speaking-notes.pages.dev>
+
 在 Cloudflare Pages 中连接这个 GitHub 仓库，并使用以下设置：
 
 - Project name：`english-speaking-notes`
