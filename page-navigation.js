@@ -1,4 +1,4 @@
-const SHELL_CACHE_KEY = "english-v2-shell-20260729-sheets";
+const SHELL_CACHE_KEY = "english-v2-shell-20260729-sheets-live";
 
 const pages = {
   home: {

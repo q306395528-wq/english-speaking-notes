@@ -27,7 +27,7 @@ export async function onRequest(context) {
     const pack = await loadGoogleSheetsPack(context);
     return Response.json(pack, {
       headers: {
-        "Cache-Control": `public, max-age=${googleSheetsConfig.cacheSeconds}`,
+        "Cache-Control": "no-store",
         "X-Content-Type-Options": "nosniff",
         "X-Google-Sheets-Sync": "ready",
       },

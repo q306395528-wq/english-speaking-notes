@@ -1,8 +1,8 @@
 const SPREADSHEET_ID = "1fI07mAuiV_LC0GvcoC0S5HZOrZbWAfgbhkyJPjporS0";
 const SPREADSHEET_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`;
 const EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=xlsx`;
-const CACHE_VERSION = "v1";
-const CACHE_SECONDS = 900;
+const CACHE_VERSION = "v2";
+const CACHE_SECONDS = 60;
 const MAX_ARCHIVE_BYTES = 8 * 1024 * 1024;
 const MAX_ENTRY_BYTES = 12 * 1024 * 1024;
 const MAX_ENTRIES = 512;
