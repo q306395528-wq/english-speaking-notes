@@ -2,7 +2,7 @@ import {
   installPageNavigation,
   readCachedShell,
   writeCachedShell
-} from "./page-navigation.js?v=20260728-output";
+} from "./page-navigation.js?v=20260729-sheets";
 
 const view = document.body.dataset.view || "home";
 
@@ -19,7 +19,7 @@ async function mountPage() {
   template.querySelectorAll("script").forEach((script) => script.remove());
   document.body.innerHTML = template.body.innerHTML;
   installPageNavigation(view);
-  await import("./app.js?v=20260728-output");
+  await import("./app.js?v=20260729-sheets");
 }
 
 mountPage().catch(() => {

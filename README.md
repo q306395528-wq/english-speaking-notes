@@ -27,6 +27,7 @@
 - 深色模式和手机端布局
 - 每日 JSON 编辑器 `add.html`
 - GitHub Actions 自动检查 JSON、必填字段和重复 ID
+- 自动同步公开 Google 表格中的字幕工作表，并按内容分类
 
 ## 项目结构
 
@@ -39,6 +40,7 @@ english-speaking-notes-v2/
 ├── dictionary.css            点词查询弹窗样式
 ├── functions/api/dictionary.js 免费词典查询与边缘缓存
 ├── functions/api/tts.js      自然语音接口
+├── functions/api/subtitles.js Google 表格字幕同步接口
 ├── _routes.json              Pages Functions 路由
 ├── wrangler.jsonc            Cloudflare Pages 与 AI 绑定配置
 ├── data/
@@ -65,6 +67,23 @@ http://localhost:8000
 ```
 
 ## 每天新增内容
+
+## Google 表格字幕自动同步
+
+网站会从项目配置的公开 Google 表格读取所有工作表。每个工作表使用以下表头：
+
+```text
+Time | Subtitle | Machine Translation
+```
+
+- `Subtitle` 是英文字幕，`Machine Translation` 是中文翻译。
+- 相邻的字幕片段会自动合并成完整句子。
+- 工作表名称会作为来源标签；新建同样表头的工作表后会自动进入句库。
+- 句子会按关键词自动归入职场、科技、理财、出行、生活等分类。
+- 网页端和边缘节点缓存 15 分钟，表格更新后通常会在 15 分钟内同步，无需重新部署。
+- 表格必须保持“知道链接的任何人可查看”。同步只使用公开导出地址，不需要 API Token，也不会把账号凭证提交到 GitHub。
+
+当前同步表格：<https://docs.google.com/spreadsheets/d/1fI07mAuiV_LC0GvcoC0S5HZOrZbWAfgbhkyJPjporS0/edit>
 
 ### 方法一：使用网页编辑器
 

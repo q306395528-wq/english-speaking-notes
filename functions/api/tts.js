@@ -1,3 +1,5 @@
+import { loadGoogleSheetsPack } from "../_lib/google-sheets.js";
+
 const MODEL = "@cf/deepgram/aura-2-en";
 const VOICES = Object.freeze({
   female: "luna",
@@ -39,6 +41,20 @@ async function fetchJsonAsset(context, path) {
 }
 
 async function findLesson(context, date, id) {
+  if (date === "google-sheets") {
+    const pack = await loadGoogleSheetsPack(context);
+    const lesson = pack.lessons.find((item) => item?.id === id);
+    if (
+      !lesson ||
+      typeof lesson.english !== "string" ||
+      lesson.english.length < 1 ||
+      lesson.english.length > 500
+    ) {
+      return null;
+    }
+    return lesson;
+  }
+
   const index = await fetchJsonAsset(context, "/data/index.json");
   if (
     !index ||
@@ -99,7 +115,7 @@ async function handleGet(context) {
   const speaker = VOICES[voice];
 
   if (
-    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+    !(date === "google-sheets" || /^\d{4}-\d{2}-\d{2}$/.test(date)) ||
     !/^[a-z0-9][a-z0-9-]{0,119}$/.test(id) ||
     !speaker
   ) {
