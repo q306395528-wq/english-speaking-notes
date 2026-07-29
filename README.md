@@ -81,6 +81,7 @@ Time | Subtitle | Machine Translation
 - 工作表名称会作为来源标签；新建同样表头的工作表后会自动进入句库。
 - 句子会按关键词自动归入职场、科技、理财、出行、生活等分类。
 - 页面打开期间每分钟自动检查一次；表格更新后通常会在 1 分钟左右同步，无需刷新或重新部署。
+- 每次成功同步都会把完整句库快照保存到 Cloudflare D1；Google 暂时不可用时自动读取最后一次成功快照。
 - 表格必须保持“知道链接的任何人可查看”。同步只使用公开导出地址，不需要 API Token，也不会把账号凭证提交到 GitHub。
 
 当前同步表格：<https://docs.google.com/spreadsheets/d/1fI07mAuiV_LC0GvcoC0S5HZOrZbWAfgbhkyJPjporS0/edit>

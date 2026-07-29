@@ -30,6 +30,10 @@ export async function onRequest(context) {
         "Cache-Control": "no-store",
         "X-Content-Type-Options": "nosniff",
         "X-Google-Sheets-Sync": "ready",
+        "X-Google-Sheets-Source":
+          pack.serverSnapshot?.status === "fallback"
+            ? "server-snapshot"
+            : "google",
       },
     });
   } catch (error) {

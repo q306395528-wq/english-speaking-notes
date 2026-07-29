@@ -7,6 +7,8 @@ const MAX_ARCHIVE_BYTES = 8 * 1024 * 1024;
 const MAX_ENTRY_BYTES = 12 * 1024 * 1024;
 const MAX_ENTRIES = 512;
 const MAX_LESSONS = 5000;
+const SNAPSHOT_KEY = "subtitle-library";
+const MAX_SNAPSHOT_BYTES = 900_000;
 const textDecoder = new TextDecoder();
 
 function readU16(bytes, offset) {
@@ -494,6 +496,84 @@ async function stableLessonId(sheetTitle, english) {
   return `gs-${hash}`;
 }
 
+async function hashJson(json) {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(json),
+  );
+  return [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function saveServerSnapshot(database, pack) {
+  if (!database) return;
+  const snapshotJson = JSON.stringify(pack);
+  if (new TextEncoder().encode(snapshotJson).byteLength > MAX_SNAPSHOT_BYTES) {
+    throw new Error("Subtitle snapshot is too large");
+  }
+  const snapshotHash = await hashJson(
+    JSON.stringify({
+      source: pack.source,
+      lessons: pack.lessons,
+    }),
+  );
+  await database
+    .prepare(
+      `INSERT INTO google_sheets_snapshots (
+         cache_key, snapshot_json, snapshot_hash, lesson_count,
+         source_updated_at, updated_at
+       ) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+       ON CONFLICT(cache_key) DO UPDATE SET
+         snapshot_json = excluded.snapshot_json,
+         snapshot_hash = excluded.snapshot_hash,
+         lesson_count = excluded.lesson_count,
+         source_updated_at = excluded.source_updated_at,
+         updated_at = CURRENT_TIMESTAMP
+       WHERE google_sheets_snapshots.snapshot_hash != excluded.snapshot_hash`,
+    )
+    .bind(
+      SNAPSHOT_KEY,
+      snapshotJson,
+      snapshotHash,
+      pack.lessons.length,
+      pack.updatedAt,
+    )
+    .run();
+}
+
+async function readServerSnapshot(database) {
+  if (!database) return null;
+  const row = await database
+    .prepare(
+      `SELECT snapshot_json, updated_at
+       FROM google_sheets_snapshots
+       WHERE cache_key = ?`,
+    )
+    .bind(SNAPSHOT_KEY)
+    .first();
+  if (!row?.snapshot_json) return null;
+  try {
+    const pack = JSON.parse(row.snapshot_json);
+    if (
+      pack?.date !== "google-sheets" ||
+      !Array.isArray(pack.lessons) ||
+      pack.lessons.length > MAX_LESSONS
+    ) {
+      return null;
+    }
+    return {
+      ...pack,
+      serverSnapshot: {
+        status: "fallback",
+        savedAt: row.updated_at,
+      },
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function buildSubtitlePack(sheets) {
   const lessons = [];
   const seen = new Set();
@@ -578,7 +658,42 @@ export async function loadGoogleSheetsPack(context) {
   const cached = await caches.default.match(cacheKey);
   if (cached) return cached.json();
 
-  const pack = await fetchSpreadsheetPack();
+  let pack;
+  try {
+    pack = await fetchSpreadsheetPack();
+    try {
+      await saveServerSnapshot(context.env?.SYNC_DB, pack);
+    } catch (error) {
+      console.error(
+        JSON.stringify({
+          message: "Google Sheets server snapshot write failed",
+          error: error instanceof Error ? error.message : String(error),
+        }),
+      );
+    }
+    pack = {
+      ...pack,
+      serverSnapshot: {
+        status: "current",
+        savedAt: pack.updatedAt,
+      },
+    };
+  } catch (sourceError) {
+    try {
+      pack = await readServerSnapshot(context.env?.SYNC_DB);
+    } catch (snapshotError) {
+      console.error(
+        JSON.stringify({
+          message: "Google Sheets server snapshot read failed",
+          error:
+            snapshotError instanceof Error
+              ? snapshotError.message
+              : String(snapshotError),
+        }),
+      );
+    }
+    if (!pack) throw sourceError;
+  }
   const response = Response.json(pack, {
     headers: {
       "Cache-Control": `public, max-age=${CACHE_SECONDS}`,
@@ -602,4 +717,5 @@ export const googleSheetsConfig = Object.freeze({
   spreadsheetId: SPREADSHEET_ID,
   spreadsheetUrl: SPREADSHEET_URL,
   cacheSeconds: CACHE_SECONDS,
+  snapshotKey: SNAPSHOT_KEY,
 });
