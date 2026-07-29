@@ -1,4 +1,4 @@
-const SHELL_CACHE_KEY = "english-v2-shell-20260729-sheets-live";
+const SHELL_CACHE_KEY = "english-v2-shell-20260729-groups";
 
 const pages = {
   home: {
@@ -15,7 +15,7 @@ const pages = {
   library: {
     file: "library.html",
     title: "句子库 · 我的英语口语库",
-    sections: ["library", "mistakes"],
+    sections: ["library"],
     heading: ["ENGLISH NOTES", "句子库", "查找、收藏和复习句子"]
   },
   stats: {

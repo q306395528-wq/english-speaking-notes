@@ -28,6 +28,7 @@
 - 每日 JSON 编辑器 `add.html`
 - GitHub Actions 自动检查 JSON、必填字段和重复 ID
 - 自动同步公开 Google 表格中的字幕工作表，并按内容分类
+- 句库按 Google 工作表和本地对话分组展示，支持选择整组或单句开始学习
 
 ## 项目结构
 

@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./learning.css?v=20260728-learning">
   <link rel="stylesheet" href="./product-polish.css?v=20260728-polish">
   <link rel="stylesheet" href="./mobile-app.css?v=20260728-output">
+  <link rel="stylesheet" href="./library-groups.css?v=20260729-groups">
 </head>
 <body data-view="home">
   <header class="topbar">
@@ -158,45 +159,79 @@
         <div>
           <span class="section-kicker">SENTENCE LIBRARY</span>
           <h2>句子库</h2>
-          <p>按日期、场景、难度或关键词查找；点击英文单词可看音标和释义。</p>
+          <p>按对话和表格工作表分组，选择想学习的整组或单句。</p>
         </div>
         <a class="button button-soft" href="./add.html">＋ 添加今天的内容</a>
       </div>
 
-      <div class="library-toolbar">
-        <label class="search-box">
+      <div id="libraryGroupView">
+        <label class="library-group-search">
           <span>⌕</span>
-          <input id="searchInput" type="search" placeholder="搜索英文、中文、错句、标签……">
+          <input id="groupSearchInput" type="search" placeholder="搜索分组名称……">
         </label>
-        <select id="dateFilter" aria-label="按日期筛选">
-          <option value="all">全部日期</option>
-        </select>
-        <select id="levelFilter" aria-label="按难度筛选">
-          <option value="all">全部难度</option>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-        </select>
-        <select id="statusFilter" aria-label="按学习状态筛选">
-          <option value="all">全部状态</option>
-          <option value="due">待复习</option>
-          <option value="new">未学习</option>
-          <option value="know">认识</option>
-          <option value="fuzzy">模糊</option>
-          <option value="forget">忘记</option>
-          <option value="favorite">已收藏</option>
-        </select>
+        <div class="library-meta">
+          <span id="libraryGroupSummary">正在加载分组……</span>
+        </div>
+        <div class="library-group-list" id="libraryGroupList" aria-live="polite"></div>
       </div>
 
-      <div class="category-row" id="categoryFilters"></div>
-      <div class="library-meta">
-        <span id="libraryResultText">正在加载……</span>
-        <button class="text-button" id="clearFilters" type="button">清除筛选</button>
+      <div class="library-detail hidden" id="libraryDetailView">
+        <div class="library-detail-header">
+          <button class="library-back" id="libraryBack" type="button" aria-label="返回分组">‹</button>
+          <div class="library-detail-title">
+            <strong id="libraryDetailTitle">分组</strong>
+            <small id="libraryDetailSummary"></small>
+          </div>
+          <button class="button button-soft" id="selectCurrentGroup" type="button">选择整组</button>
+        </div>
+
+        <div class="library-toolbar">
+          <label class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="搜索当前分组里的句子……">
+          </label>
+          <select id="dateFilter" aria-label="按日期筛选">
+            <option value="all">全部日期</option>
+          </select>
+          <select id="levelFilter" aria-label="按难度筛选">
+            <option value="all">全部难度</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+          </select>
+          <select id="statusFilter" aria-label="按学习状态筛选">
+            <option value="all">全部状态</option>
+            <option value="due">待复习</option>
+            <option value="new">未学习</option>
+            <option value="know">认识</option>
+            <option value="fuzzy">模糊</option>
+            <option value="forget">忘记</option>
+            <option value="favorite">已收藏</option>
+          </select>
+        </div>
+
+        <div class="category-row" id="categoryFilters"></div>
+        <div class="library-meta">
+          <span id="libraryResultText">正在加载……</span>
+          <button class="text-button" id="clearFilters" type="button">清除筛选</button>
+        </div>
+        <div class="lesson-grid" id="lessonGrid" aria-live="polite"></div>
+        <div class="empty-state hidden" id="libraryEmpty">
+          <strong>没有找到对应内容</strong>
+          <p>换一个关键词或清除筛选再试。</p>
+        </div>
       </div>
-      <div class="lesson-grid" id="lessonGrid" aria-live="polite"></div>
-      <div class="empty-state hidden" id="libraryEmpty">
-        <strong>没有找到对应内容</strong>
-        <p>换一个关键词或清除筛选再试。</p>
+
+      <div class="library-selection-bar hidden" id="librarySelectionBar">
+        <div>
+          <strong id="librarySelectionCount">已选择 0 句</strong>
+          <small>每轮最多练习 10 句</small>
+        </div>
+        <div class="library-selection-actions">
+          <button class="text-button" id="clearLibrarySelection" type="button">清空</button>
+          <button class="button button-primary" id="startLibrarySelection" type="button">开始学习</button>
+        </div>
       </div>
     </section>
 
@@ -395,6 +430,6 @@
     import { installPageNavigation } from "./page-navigation.js?v=20260728-output";
     installPageNavigation("home");
   </script>
-  <script type="module" src="./app.js?v=20260729-sheets-live"></script>
+  <script type="module" src="./app.js?v=20260729-groups"></script>
 </body>
 </html>
