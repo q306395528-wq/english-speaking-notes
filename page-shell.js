@@ -19,7 +19,7 @@ async function mountPage() {
   template.querySelectorAll("script").forEach((script) => script.remove());
   document.body.innerHTML = template.body.innerHTML;
   installPageNavigation(view);
-  await import("./app.js?v=20260730-ai-voice2");
+  await import("./app.js?v=20260730-ai-voice3");
 }
 
 mountPage().catch(() => {

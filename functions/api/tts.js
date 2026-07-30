@@ -10,15 +10,19 @@ const R2_PREFIX = "english-speaking-notes/tts";
 const MAX_DAYS = 5000;
 const MAX_LESSONS_PER_DAY = 500;
 
-function jsonError(message, status) {
+function jsonError(message, status, extraHeaders = {}) {
+  const headers = new Headers({
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+  });
+  Object.entries(extraHeaders).forEach(([name, value]) => {
+    if (value) headers.set(name, String(value));
+  });
   return Response.json(
     { error: message },
     {
       status,
-      headers: {
-        "Cache-Control": "no-store",
-        "X-Content-Type-Options": "nosniff",
-      },
+      headers,
     },
   );
 }
@@ -322,6 +326,8 @@ async function handleGet(context) {
     );
 
     if (!aiResponse.ok || !aiResponse.body) {
+      const retryable = aiResponse.status === 429;
+      const retryAfter = aiResponse.headers.get("Retry-After") || "300";
       console.error(
         JSON.stringify({
           message: "TTS generation failed",
@@ -331,6 +337,12 @@ async function handleGet(context) {
           voice,
         }),
       );
+      if (retryable) {
+        return jsonError("AI voice service is busy", 429, {
+          "Retry-After": retryAfter,
+          "X-TTS-Retryable": "1",
+        });
+      }
       return jsonError("Natural voice is temporarily unavailable", 503);
     }
 

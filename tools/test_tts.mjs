@@ -91,7 +91,7 @@ function createD1() {
   };
 }
 
-function createContext(bucket, d1 = null) {
+function createContext(bucket, d1 = null, aiResponse = null) {
   const waits = [];
   return {
     waits,
@@ -131,6 +131,7 @@ function createContext(bucket, d1 = null) {
         },
         AI: {
           async run() {
+            if (aiResponse) return aiResponse();
             return new Response(new Uint8Array([1, 2, 3, 4]), {
               headers: { "Content-Type": "audio/mpeg" },
             });
@@ -186,3 +187,20 @@ assert.deepEqual(
 );
 
 console.log("OK: generated AI audio is persisted to and restored from D1.");
+
+edgeCache.clear();
+run = createContext(null, null, () =>
+  new Response("rate limited", {
+    status: 429,
+    headers: { "Retry-After": "120" },
+  }),
+);
+response = await onRequest(run.context);
+assert.equal(response.status, 429);
+assert.equal(response.headers.get("Retry-After"), "120");
+assert.equal(response.headers.get("X-TTS-Retryable"), "1");
+assert.deepEqual(await response.json(), {
+  error: "AI voice service is busy",
+});
+
+console.log("OK: Workers AI rate limits are exposed as retryable 429 responses.");
