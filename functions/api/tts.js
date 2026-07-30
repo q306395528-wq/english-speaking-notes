@@ -108,6 +108,67 @@ async function hashText(text) {
   ).join("");
 }
 
+async function readD1Audio(context, objectKey) {
+  if (!context.env.SYNC_DB) return null;
+  try {
+    return await context.env.SYNC_DB
+      .prepare(
+        `SELECT audio_data, content_type, byte_length
+         FROM tts_audio
+         WHERE audio_key = ?`,
+      )
+      .bind(objectKey)
+      .first();
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        message: "TTS D1 read failed",
+        error: error instanceof Error ? error.message : String(error),
+      }),
+    );
+    return null;
+  }
+}
+
+async function writeD1Audio(context, objectKey, response, metadata) {
+  if (!context.env.SYNC_DB) return;
+  const audioData = await response.arrayBuffer();
+  await context.env.SYNC_DB
+    .prepare(
+      `INSERT INTO tts_audio (
+         audio_key, audio_data, content_type, byte_length,
+         voice, lesson_date, lesson_id, text_hash, updated_at
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+       ON CONFLICT(audio_key) DO UPDATE SET
+         audio_data = excluded.audio_data,
+         content_type = excluded.content_type,
+         byte_length = excluded.byte_length,
+         updated_at = CURRENT_TIMESTAMP`,
+    )
+    .bind(
+      objectKey,
+      audioData,
+      "audio/mpeg",
+      audioData.byteLength,
+      metadata.voice,
+      metadata.date,
+      metadata.lessonId,
+      metadata.textHash,
+    )
+    .run();
+}
+
+function logDurableWriteFailure(message, error, lessonId, voice) {
+  console.error(
+    JSON.stringify({
+      message,
+      error: error instanceof Error ? error.message : String(error),
+      lessonId,
+      voice,
+    }),
+  );
+}
+
 async function handleGet(context) {
   const requestUrl = new URL(context.request.url);
   const date = requestUrl.searchParams.get("date") || "";
@@ -139,23 +200,48 @@ async function handleGet(context) {
     const cacheKey = new Request(cacheUrl);
 
     if (context.env.AUDIO_BUCKET) {
-      const stored = await context.env.AUDIO_BUCKET.get(objectKey);
-      if (stored?.body) {
-        const headers = new Headers({
-          "Content-Type": stored.httpMetadata?.contentType || "audio/mpeg",
-          "Cache-Control": "public, max-age=31536000, immutable",
-          "X-Content-Type-Options": "nosniff",
-          "X-TTS-Cache": "R2",
-          "X-TTS-Storage": "R2",
-          "X-TTS-Voice": voice,
-          ETag: stored.httpEtag || stored.etag,
-        });
-        const response = new Response(stored.body, { status: 200, headers });
-        context.waitUntil(
-          caches.default.put(cacheKey, response.clone()).catch(() => {}),
-        );
-        return response;
+      try {
+        const stored = await context.env.AUDIO_BUCKET.get(objectKey);
+        if (stored?.body) {
+          const headers = new Headers({
+            "Content-Type": stored.httpMetadata?.contentType || "audio/mpeg",
+            "Cache-Control": "public, max-age=31536000, immutable",
+            "X-Content-Type-Options": "nosniff",
+            "X-TTS-Cache": "R2",
+            "X-TTS-Storage": "R2",
+            "X-TTS-Voice": voice,
+            ETag: stored.httpEtag || stored.etag,
+          });
+          const response = new Response(stored.body, { status: 200, headers });
+          context.waitUntil(
+            caches.default.put(cacheKey, response.clone()).catch(() => {}),
+          );
+          return response;
+        }
+      } catch (error) {
+        logDurableWriteFailure("TTS R2 read failed", error, id, voice);
       }
+    }
+
+    const storedInD1 = await readD1Audio(context, objectKey);
+    if (storedInD1?.audio_data) {
+      const headers = new Headers({
+        "Content-Type": storedInD1.content_type || "audio/mpeg",
+        "Content-Length": String(storedInD1.byte_length || 0),
+        "Cache-Control": "public, max-age=31536000, immutable",
+        "X-Content-Type-Options": "nosniff",
+        "X-TTS-Cache": "D1",
+        "X-TTS-Storage": "D1",
+        "X-TTS-Voice": voice,
+      });
+      const response = new Response(storedInD1.audio_data, {
+        status: 200,
+        headers,
+      });
+      context.waitUntil(
+        caches.default.put(cacheKey, response.clone()).catch(() => {}),
+      );
+      return response;
     }
 
     const cached = await caches.default.match(cacheKey);
@@ -184,6 +270,23 @@ async function handleGet(context) {
                 lessonId: id,
                 voice,
               }),
+            );
+          }),
+        );
+      }
+      if (context.env.SYNC_DB) {
+        context.waitUntil(
+          writeD1Audio(context, objectKey, response.clone(), {
+            voice,
+            date,
+            lessonId: id,
+            textHash,
+          }).catch((error) => {
+            logDurableWriteFailure(
+              "TTS D1 backfill failed",
+              error,
+              id,
+              voice,
             );
           }),
         );
@@ -252,6 +355,18 @@ async function handleGet(context) {
               voice,
             }),
           );
+        }),
+      );
+    }
+    if (context.env.SYNC_DB) {
+      writes.push(
+        writeD1Audio(context, objectKey, response.clone(), {
+          voice,
+          date,
+          lessonId: id,
+          textHash,
+        }).catch((error) => {
+          logDurableWriteFailure("TTS D1 write failed", error, id, voice);
         }),
       );
     }

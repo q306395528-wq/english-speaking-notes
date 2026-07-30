@@ -39,7 +39,56 @@ function createBucket() {
   };
 }
 
-function createContext(bucket) {
+function createD1() {
+  const rows = new Map();
+  return {
+    rows,
+    prepare(sql) {
+      return {
+        bind(...values) {
+          return {
+            async first() {
+              if (!sql.includes("SELECT audio_data")) return null;
+              const row = rows.get(values[0]);
+              if (!row) return null;
+              return {
+                ...row,
+                audio_data: row.audio_data.slice(0),
+              };
+            },
+            async run() {
+              if (!sql.includes("INSERT INTO tts_audio")) {
+                throw new Error("Unexpected D1 statement");
+              }
+              const [
+                audioKey,
+                audioData,
+                contentType,
+                byteLength,
+                voice,
+                lessonDate,
+                lessonId,
+                textHash,
+              ] = values;
+              rows.set(audioKey, {
+                audio_data: audioData.slice(0),
+                content_type: contentType,
+                byte_length: byteLength,
+                voice,
+                lesson_date: lessonDate,
+                lesson_id: lessonId,
+                text_hash: textHash,
+              });
+              return { success: true };
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
+function createContext(bucket, d1 = null) {
   const waits = [];
   return {
     waits,
@@ -49,6 +98,7 @@ function createContext(bucket) {
       ),
       env: {
         AUDIO_BUCKET: bucket,
+        SYNC_DB: d1,
         ASSETS: {
           async fetch(request) {
             const path = new URL(request.url).pathname;
@@ -111,3 +161,25 @@ assert.deepEqual(
 );
 
 console.log("OK: generated AI audio is persisted to and restored from R2.");
+
+edgeCache.clear();
+const d1 = createD1();
+run = createContext(null, d1);
+response = await onRequest(run.context);
+assert.equal(response.status, 200);
+assert.equal(response.headers.get("X-TTS-Storage"), "GENERATED");
+await response.arrayBuffer();
+await Promise.all(run.waits);
+assert.equal(d1.rows.size, 1);
+
+edgeCache.clear();
+run = createContext(null, d1);
+response = await onRequest(run.context);
+assert.equal(response.status, 200);
+assert.equal(response.headers.get("X-TTS-Storage"), "D1");
+assert.deepEqual(
+  [...new Uint8Array(await response.arrayBuffer())],
+  [1, 2, 3, 4],
+);
+
+console.log("OK: generated AI audio is persisted to and restored from D1.");
