@@ -1,0 +1,20 @@
+/
+  Cache-Control: no-cache, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, must-revalidate
+
+/library
+  Cache-Control: no-cache, must-revalidate
+
+/library.html
+  Cache-Control: no-cache, must-revalidate
+
+/practice.html
+  Cache-Control: no-cache, must-revalidate
+
+/stats.html
+  Cache-Control: no-cache, must-revalidate
+
+/settings.html
+  Cache-Control: no-cache, must-revalidate

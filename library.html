@@ -7,6 +7,43 @@
   <title>句子库 · 我的英语口语库</title>
   <style>html{background:#f4f6fa;color-scheme:light}html[data-theme="dark"]{background:#0d1320;color-scheme:dark}</style>
   <script>try{document.documentElement.dataset.theme=localStorage.getItem("english-theme")||"light"}catch{}</script>
+  <style id="library-critical-styles">
+    .library-group-search{display:flex;align-items:center;gap:10px;min-height:52px;margin-bottom:16px;padding:0 16px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}
+    .library-group-search input{width:100%;border:0;outline:0;color:var(--text);background:transparent}
+    .library-group-list{display:grid;gap:12px}
+    .library-group-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:stretch;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+    .library-group-open{display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:15px;padding:18px;border:0;color:var(--text);background:transparent;text-align:left}
+    .library-group-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;color:var(--primary);background:#eef0ff;font-weight:900}
+    [data-theme="dark"] .library-group-icon{background:#202a45}
+    .library-group-copy{min-width:0}
+    .library-group-copy strong,.library-group-copy small{display:block}
+    .library-group-copy strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .library-group-copy small,.library-group-stats{color:var(--muted);font-size:12px}
+    .library-group-stats{text-align:right;white-space:nowrap}
+    .library-group-select{min-width:82px;padding:0 14px;border:0;border-left:1px solid var(--line);color:var(--muted);background:var(--soft);font-weight:900}
+    .library-detail-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding:15px;border:1px solid var(--line);border-radius:17px;background:var(--surface)}
+    .library-detail-title{min-width:0;flex:1}
+    .library-detail-title strong,.library-detail-title small{display:block}
+    .library-detail-title strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .library-detail-title small{color:var(--muted)}
+    .library-back{width:42px;height:42px;border:1px solid var(--line);border-radius:12px;color:var(--text);background:var(--soft)}
+    .lesson-select{width:35px;height:35px;flex:0 0 auto;border:1px solid var(--line);border-radius:10px;color:var(--muted);background:var(--soft)}
+    .library-selection-bar{position:sticky;bottom:82px;z-index:24;display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(680px,calc(100% - 20px));margin:18px auto 0;padding:11px 12px 11px 16px;border:1px solid #c9ceff;border-radius:16px;background:var(--surface)}
+    .library-selection-actions{display:flex;gap:8px}
+    @media(max-width:740px){
+      .view-library .standalone-heading{display:block;padding:18px 0 10px}
+      .view-library .standalone-heading .section-kicker,.view-library .standalone-heading p{display:none}
+      .view-library .standalone-heading h1{margin:0;font-size:28px}
+      .view-library #library{padding-top:18px}
+      .library-group-search{margin-bottom:12px;background:var(--soft)}
+      .library-group-card{border-radius:15px}
+      .library-group-open{grid-template-columns:44px minmax(0,1fr);padding:14px}
+      .library-group-icon{width:44px;height:44px;border-radius:50%}
+      .library-group-stats{grid-column:2;text-align:left}
+      .library-group-select{min-width:66px;padding:0 9px;font-size:12px}
+      .library-selection-bar{bottom:calc(78px + env(safe-area-inset-bottom));width:calc(100% - 10px)}
+    }
+  </style>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./voice-settings.css">
   <link rel="stylesheet" href="./dictionary.css">
@@ -15,10 +52,10 @@
   <link rel="stylesheet" href="./learning.css?v=20260728-learning">
   <link rel="stylesheet" href="./product-polish.css?v=20260728-polish">
   <link rel="stylesheet" href="./mobile-app.css?v=20260728-output">
-  <link rel="stylesheet" href="./library-groups.css?v=20260729-groups">
+  <link rel="stylesheet" href="./library-groups.css?v=20260730-critical">
 </head>
 <body data-view="library">
   <div class="shell-loading">正在加载句子库…</div>
-  <script type="module" src="./page-shell.js?v=20260729-groups"></script>
+  <script type="module" src="./page-shell.js?v=20260730-critical"></script>
 </body>
 </html>

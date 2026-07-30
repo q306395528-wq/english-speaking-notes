@@ -2,14 +2,14 @@ import {
   installPageNavigation,
   readCachedShell,
   writeCachedShell
-} from "./page-navigation.js?v=20260729-groups";
+} from "./page-navigation.js?v=20260730-critical";
 
 const view = document.body.dataset.view || "home";
 
 async function mountPage() {
   let source = readCachedShell();
   if (!source) {
-    const response = await fetch("./index.html", { cache: "force-cache" });
+    const response = await fetch("./index.html", { cache: "no-cache" });
     if (!response.ok) throw new Error("Unable to load application shell");
     source = await response.text();
     writeCachedShell(source);
@@ -19,7 +19,7 @@ async function mountPage() {
   template.querySelectorAll("script").forEach((script) => script.remove());
   document.body.innerHTML = template.body.innerHTML;
   installPageNavigation(view);
-  await import("./app.js?v=20260729-groups");
+  await import("./app.js?v=20260730-critical");
 }
 
 mountPage().catch(() => {

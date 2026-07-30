@@ -1,4 +1,4 @@
-const SHELL_CACHE_KEY = "english-v2-shell-20260729-groups";
+const SHELL_CACHE_KEY = "english-v2-shell-20260730-critical";
 
 const pages = {
   home: {
@@ -104,7 +104,7 @@ export function installPageNavigation(initialView = viewFromUrl(location.href) |
     try {
       if (sessionStorage.getItem(SHELL_CACHE_KEY)) return;
     } catch {}
-    fetch("./index.html", { cache: "force-cache" })
+    fetch("./index.html", { cache: "no-cache" })
       .then((response) => response.ok ? response.text() : "")
       .then((source) => {
         if (!source) return;
