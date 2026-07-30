@@ -7,6 +7,12 @@
   "ai": {
     "binding": "AI"
   },
+  "r2_buckets": [
+    {
+      "binding": "AUDIO_BUCKET",
+      "bucket_name": "pine-assets"
+    }
+  ],
   "d1_databases": [
     {
       "binding": "SYNC_DB",

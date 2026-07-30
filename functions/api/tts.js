@@ -6,6 +6,7 @@ const VOICES = Object.freeze({
   male: "apollo",
 });
 const CACHE_VERSION = "v2";
+const R2_PREFIX = "english-speaking-notes/tts";
 const MAX_DAYS = 5000;
 const MAX_LESSONS_PER_DAY = 500;
 
@@ -129,20 +130,65 @@ async function handleGet(context) {
     }
 
     const textHash = await hashText(lesson.english);
+    const objectKey =
+      `${R2_PREFIX}/${CACHE_VERSION}/${voice}/${date}/${id}-${textHash}.mp3`;
     const cacheUrl = new URL(
       `/__tts-cache/${CACHE_VERSION}/${voice}/${date}/${id}-${textHash}.mp3`,
       requestUrl.origin,
     );
     const cacheKey = new Request(cacheUrl);
+
+    if (context.env.AUDIO_BUCKET) {
+      const stored = await context.env.AUDIO_BUCKET.get(objectKey);
+      if (stored?.body) {
+        const headers = new Headers({
+          "Content-Type": stored.httpMetadata?.contentType || "audio/mpeg",
+          "Cache-Control": "public, max-age=31536000, immutable",
+          "X-Content-Type-Options": "nosniff",
+          "X-TTS-Cache": "R2",
+          "X-TTS-Storage": "R2",
+          "X-TTS-Voice": voice,
+          ETag: stored.httpEtag || stored.etag,
+        });
+        const response = new Response(stored.body, { status: 200, headers });
+        context.waitUntil(
+          caches.default.put(cacheKey, response.clone()).catch(() => {}),
+        );
+        return response;
+      }
+    }
+
     const cached = await caches.default.match(cacheKey);
 
     if (cached) {
       const headers = new Headers(cached.headers);
       headers.set("X-TTS-Cache", "HIT");
-      return new Response(cached.body, {
+      headers.set("X-TTS-Storage", "EDGE");
+      const response = new Response(cached.body, {
         status: cached.status,
         headers,
       });
+      if (context.env.AUDIO_BUCKET) {
+        context.waitUntil(
+          context.env.AUDIO_BUCKET.put(objectKey, response.clone().body, {
+            httpMetadata: {
+              contentType: "audio/mpeg",
+              cacheControl: "public, max-age=31536000, immutable",
+            },
+            customMetadata: { voice, date, lessonId: id, textHash },
+          }).catch((error) => {
+            console.error(
+              JSON.stringify({
+                message: "TTS R2 backfill failed",
+                error: error instanceof Error ? error.message : String(error),
+                lessonId: id,
+                voice,
+              }),
+            );
+          }),
+        );
+      }
+      return response;
     }
 
     const aiResponse = await context.env.AI.run(
@@ -173,10 +219,11 @@ async function handleGet(context) {
     headers.set("Cache-Control", "public, max-age=31536000, immutable");
     headers.set("X-Content-Type-Options", "nosniff");
     headers.set("X-TTS-Cache", "MISS");
+    headers.set("X-TTS-Storage", "GENERATED");
     headers.set("X-TTS-Voice", voice);
     const response = new Response(aiResponse.body, { status: 200, headers });
 
-    context.waitUntil(
+    const writes = [
       caches.default.put(cacheKey, response.clone()).catch((error) => {
         console.error(
           JSON.stringify({
@@ -187,7 +234,28 @@ async function handleGet(context) {
           }),
         );
       }),
-    );
+    ];
+    if (context.env.AUDIO_BUCKET) {
+      writes.push(
+        context.env.AUDIO_BUCKET.put(objectKey, response.clone().body, {
+          httpMetadata: {
+            contentType: "audio/mpeg",
+            cacheControl: "public, max-age=31536000, immutable",
+          },
+          customMetadata: { voice, date, lessonId: id, textHash },
+        }).catch((error) => {
+          console.error(
+            JSON.stringify({
+              message: "TTS R2 write failed",
+              error: error instanceof Error ? error.message : String(error),
+              lessonId: id,
+              voice,
+            }),
+          );
+        }),
+      );
+    }
+    context.waitUntil(Promise.all(writes));
 
     return response;
   } catch (error) {
