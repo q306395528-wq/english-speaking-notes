@@ -48,12 +48,15 @@ function createD1() {
         bind(...values) {
           return {
             async first() {
-              if (!sql.includes("SELECT audio_data")) return null;
+              if (!sql.includes("hex(audio_data)")) return null;
               const row = rows.get(values[0]);
               if (!row) return null;
               return {
-                ...row,
-                audio_data: row.audio_data.slice(0),
+                content_type: row.content_type,
+                byte_length: row.byte_length,
+                audio_hex: [...new Uint8Array(row.audio_data)]
+                  .map((byte) => byte.toString(16).padStart(2, "0"))
+                  .join(""),
               };
             },
             async run() {

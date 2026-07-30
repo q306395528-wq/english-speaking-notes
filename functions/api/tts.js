@@ -113,7 +113,7 @@ async function readD1Audio(context, objectKey) {
   try {
     return await context.env.SYNC_DB
       .prepare(
-        `SELECT audio_data, content_type, byte_length
+        `SELECT hex(audio_data) AS audio_hex, content_type, byte_length
          FROM tts_audio
          WHERE audio_key = ?`,
       )
@@ -128,6 +128,22 @@ async function readD1Audio(context, objectKey) {
     );
     return null;
   }
+}
+
+function decodeHexAudio(value) {
+  if (
+    typeof value !== "string" ||
+    value.length < 2 ||
+    value.length % 2 !== 0 ||
+    !/^[0-9a-f]+$/i.test(value)
+  ) {
+    return null;
+  }
+  const bytes = new Uint8Array(value.length / 2);
+  for (let index = 0; index < bytes.length; index += 1) {
+    bytes[index] = Number.parseInt(value.slice(index * 2, index * 2 + 2), 16);
+  }
+  return bytes;
 }
 
 async function writeD1Audio(context, objectKey, response, metadata) {
@@ -224,17 +240,18 @@ async function handleGet(context) {
     }
 
     const storedInD1 = await readD1Audio(context, objectKey);
-    if (storedInD1?.audio_data) {
+    const d1Audio = decodeHexAudio(storedInD1?.audio_hex);
+    if (d1Audio) {
       const headers = new Headers({
         "Content-Type": storedInD1.content_type || "audio/mpeg",
-        "Content-Length": String(storedInD1.byte_length || 0),
+        "Content-Length": String(d1Audio.byteLength),
         "Cache-Control": "public, max-age=31536000, immutable",
         "X-Content-Type-Options": "nosniff",
         "X-TTS-Cache": "D1",
         "X-TTS-Storage": "D1",
         "X-TTS-Voice": voice,
       });
-      const response = new Response(storedInD1.audio_data, {
+      const response = new Response(d1Audio, {
         status: 200,
         headers,
       });
